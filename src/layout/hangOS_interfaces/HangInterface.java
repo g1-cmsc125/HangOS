@@ -1,6 +1,8 @@
 package layout.hangOS_interfaces;
 
+import javax.swing.*;
+
 public interface HangInterface {
     void displayCenter();
-    // Probably add a display footer code
+    void displayBottom(JPanel mainPanel);
 }

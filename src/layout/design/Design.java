@@ -7,12 +7,25 @@ public class Design {
     public static int screenWidth = 720;
     public static int screenHeight = 512;
 
-    // default design for center-part, 80 percent cover
-    public static void centerDefault(JPanel mainPanel, JPanel centerPanel) {
-        // Add dynamic height for center if Footer / Header are dynamic as well, otherwise same size of screen
-        // centerPanel.setPreferredSize(new Dimension(Design.screenWidth, (int) (Design.screenHeight * 0.80)));
-        centerPanel.setPreferredSize(new Dimension(Design.screenWidth, Design.screenHeight));
+    // Preferred size for arrangement of elements
+    // Not concerned with the painted bg image
+    public static void centerDesignDefault(JPanel mainPanel, JPanel centerPanel) {
+
+        centerPanel.setPreferredSize(new Dimension(Design.screenWidth, (int)(Design.screenHeight * 0.90)));
         centerPanel.setOpaque(false);
-        mainPanel.add(centerPanel, BorderLayout.CENTER);
+        mainPanel.add(centerPanel, BorderLayout.NORTH);
+    }
+
+    public static void footerDesign(JPanel mainPanel) {
+        JPanel bottomPanel = new JPanel(new GridLayout(1, 3));
+
+        for(int i = 0; i < 3; i++) {
+            JButton button = new JButton("Button " + i);
+            bottomPanel.add(button);
+        }
+
+        bottomPanel.setPreferredSize(new Dimension(Design.screenWidth, (int)(Design.screenHeight * 0.10)));
+        bottomPanel.setOpaque(false);
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
     }
 }
