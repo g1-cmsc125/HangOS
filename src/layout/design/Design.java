@@ -45,8 +45,16 @@ public class Design {
     }
 
     private static void addTaskBar(JPanel bottomPanel, GridBagConstraints gbc) {
-        JPanel blueTaskbar = new JPanel();
+        JPanel blueTaskbar = new JPanel(new FlowLayout(FlowLayout.LEFT));
         blueTaskbar.setOpaque(false);
+
+        for(int i = 0; i < 3; i++) {
+            JPanel task = new JPanel();
+            task.setPreferredSize(new Dimension(50, 20));
+            task.setBackground(Color.pink);
+            blueTaskbar.add(task);
+        }
+
         gbc.gridx = 1; gbc.weightx = 0.80;
         bottomPanel.add(blueTaskbar, gbc);
     }
@@ -54,10 +62,7 @@ public class Design {
     private static  void addTimePanel(JPanel bottomPanel, GridBagConstraints gbc) {
         JPanel timeContainer = new JPanel();
         timeContainer.setBackground(new Color(18, 151, 229)); // Lighter blue
-
-        gbc.gridx = 2;
-        gbc.weightx = 0.10;
+        gbc.gridx = 2; gbc.weightx = 0.10;
         bottomPanel.add(timeContainer, gbc);
     }
-
 }
