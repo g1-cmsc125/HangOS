@@ -1,5 +1,8 @@
+import layout.Card;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Initial commit for HangOS");
+        Card app = new Card();
+        app.setVisible(true);
     }
 }
