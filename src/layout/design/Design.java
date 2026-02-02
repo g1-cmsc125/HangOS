@@ -1,6 +1,9 @@
 package layout.design;
 
+import layout.constants.HangColors;
+import layout.constants.HangFonts;
 import layout.constants.StartButton;
+import layout.constants.TaskBarItem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,35 +12,30 @@ public class Design {
     public static int screenWidth = 720;
     public static int screenHeight = 512;
 
-    // Default center design containing WindowsXP bg
-    // Reusable for other pages needing the same bg
+    static int footerHeight = (int)(Design.screenHeight * 0.10);
     public static void centerDesignDefault(JPanel mainPanel, JPanel centerPanel) {
         centerPanel.setPreferredSize(new Dimension(Design.screenWidth, (int)(Design.screenHeight * 0.90)));
         centerPanel.setOpaque(false);
         mainPanel.add(centerPanel, BorderLayout.CENTER);
     }
 
-    // Dynamic footer design
-    // Reusable and modifiable (to be added)
-    // 10% start, 80% task, 10% time
     public static void footerDesign(JPanel mainPanel) {
         JPanel bottomPanel = new JPanel(new GridBagLayout());
+
+        bottomPanel.setPreferredSize(new Dimension(Design.screenWidth, footerHeight));
+        bottomPanel.setOpaque(true);
+        bottomPanel.setBackground(new Color(31, 107, 229));
+
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH;
-        gbc.weighty = 1.0;
-        gbc.gridheight = 1;
+        gbc.fill = GridBagConstraints.BOTH; gbc.weighty = 1.0; gbc.gridheight = 1;
 
         addStartButton(bottomPanel, gbc);
         addTaskBar(bottomPanel, gbc);
         addTimePanel(bottomPanel, gbc);
 
-        bottomPanel.setPreferredSize(new Dimension(Design.screenWidth, (int)(Design.screenHeight * 0.10)));
-        bottomPanel.setOpaque(true);
-        bottomPanel.setBackground(new Color(31, 107, 229));
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
     }
 
-    // Separate colors in constants/Color.java
     private static void addStartButton(JPanel bottomPanel, GridBagConstraints gbc) {
         StartButton startButton = new StartButton();
         gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0.05;
@@ -45,14 +43,19 @@ public class Design {
     }
 
     private static void addTaskBar(JPanel bottomPanel, GridBagConstraints gbc) {
-        JPanel blueTaskbar = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        blueTaskbar.setOpaque(false);
+        int btnHeight = (int)(footerHeight * 0.70);
+        int vGap = (footerHeight - btnHeight) / 2;
 
-        for(int i = 0; i < 3; i++) {
-            JPanel task = new JPanel();
-            task.setPreferredSize(new Dimension(50, 20));
-            task.setBackground(Color.pink);
-            blueTaskbar.add(task);
+        JPanel blueTaskbar = new JPanel(new FlowLayout(FlowLayout.LEFT, 4, vGap));
+        blueTaskbar.setOpaque(false);
+        blueTaskbar.setBorder(BorderFactory.createEmptyBorder(0, 7, 0, 0));
+
+        // Dynamically add taskBarItem dependent on opened/closed tabs
+        for(int i = 0; i < 2; i++) {
+            boolean isActive = (i == 1);
+            TaskBarItem tbi = new TaskBarItem("Folder", isActive);
+            tbi.setPreferredSize(new Dimension(150, btnHeight));
+            blueTaskbar.add(tbi);
         }
 
         gbc.gridx = 1; gbc.weightx = 0.80;
@@ -60,9 +63,19 @@ public class Design {
     }
 
     private static  void addTimePanel(JPanel bottomPanel, GridBagConstraints gbc) {
+        int vGap = (footerHeight - 13) / 2;
+
         JPanel timeContainer = new JPanel();
-        timeContainer.setBackground(new Color(18, 151, 229)); // Lighter blue
+        timeContainer.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, vGap));
+        timeContainer.setBackground(HangColors.timeContainer);
+        timeContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 7));
         gbc.gridx = 2; gbc.weightx = 0.10;
+
+        JLabel time = new JLabel("3:24 PM"); // Could be actual time if modified
+        time.setFont(HangFonts.loadCustomFonts(Font.PLAIN, 11));
+        time.setForeground(Color.WHITE);
+        timeContainer.add(time);
+
         bottomPanel.add(timeContainer, gbc);
     }
 }

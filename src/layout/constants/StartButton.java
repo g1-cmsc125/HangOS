@@ -9,11 +9,10 @@ public class StartButton extends JButton {
 
     public StartButton() {
         this.setText("start");
-        this.setFont(HangFonts.START_BUTTON);
+        this.setFont(HangFonts.loadCustomFonts(Font.BOLD | Font.ITALIC, 24));
         this.setForeground(Color.WHITE);
-        this.setLayout( new FlowLayout());
+        this.setLayout(new FlowLayout());
 
-        // Separate listener concerns
         addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 isHovered = true;
@@ -32,6 +31,7 @@ public class StartButton extends JButton {
                 repaint();
             }
         });
+
     }
 
     @Override
@@ -39,68 +39,68 @@ public class StartButton extends JButton {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        int width = getWidth(); int height = getHeight();
+        int width = getWidth();
+        int height = getHeight();
 
-        // State color adjustment for StartButton
-        Color greenTop = isPressed ? new Color(90, 160, 50) : new Color(115, 190, 70);
-        Color greenBottom = isPressed ? new Color(50, 130, 40) : new Color(60, 150, 50);
+        Color greenTop = isPressed ? HangColors.startPressedTop : HangColors.startDefaultTop;
+        Color greenBottom = isPressed ? HangColors.startPressedBot : HangColors.startDefaultBot;
 
         if (isHovered && !isPressed) {
-            greenTop = new Color(130, 200, 85);
-            greenBottom = new Color(70, 160, 60);
+            greenTop = HangColors.startHoverTop;
+            greenBottom = HangColors.startHoverBottom;
         }
 
-        // Straight left corners and rounded right corners
         Path2D buttonShape = new Path2D.Double();
         int arcSize = 15;
         buttonShape.moveTo(0, 0);
-        buttonShape.lineTo(width - arcSize, 0); // Top edge to top-right (before curve)
-        buttonShape.quadTo(width, 0, width, arcSize); // Top-right rounded corner
-        buttonShape.lineTo(width, height - arcSize); // Right edge to bottom-right (before curve)
-        buttonShape.quadTo(width, height, width - arcSize, height); // Bottom-right rounded corner
-        buttonShape.lineTo(0, height); // Bottom edge to bottom-left (straight corner)
-        buttonShape.closePath(); // Left edge back to top-left (straight corner)
+        buttonShape.lineTo(width - arcSize, 0);
+        buttonShape.quadTo(width, 0, width, arcSize);
+        buttonShape.lineTo(width, height - arcSize);
+        buttonShape.quadTo(width, height, width - arcSize, height);
+        buttonShape.lineTo(0, height);
+        buttonShape.closePath();
 
-        // Gradient fill
-        GradientPaint greenGradient = new GradientPaint(
-                0, 0, greenTop,
-                0, height, greenBottom
-        );
+        // Fill
+        GradientPaint greenGradient = new GradientPaint(0, 0, greenTop, 0, height, greenBottom);
         g2d.setPaint(greenGradient);
         g2d.fill(buttonShape);
 
-        // Replace with image here
-        g2d.drawImage(HangImages.windows, (int)(getWidth()*0.05), (int)(getHeight()/4.5), (int)(getWidth()/3.5), (int)(getHeight() / 1.75),this);
+        // Padding & scaling
+        int iconSize = (int) (height * 0.50);
+        int iconY = (height - iconSize) / 2;
+        int horizontalPadding = (int) (height * 0.20);
 
-        System.out.println(getWidth());
-        System.out.println(getHeight());
+        // Draw Image
+        if (HangImages.windows != null) {
+            g2d.drawImage(HangImages.windows, horizontalPadding, iconY, iconSize + 5, iconSize, this);
+        }
 
-        // Highlight effect on top
+        // Highlight effect
         if (!isPressed) {
             Path2D highlightShape = new Path2D.Double();
-            highlightShape.moveTo(1, 1);
-            highlightShape.lineTo(width - arcSize - 1, 1);
-            highlightShape.quadTo(width - 2, 1, width - 2, arcSize);
-            highlightShape.lineTo(width - 2, (double) height /2);
-            highlightShape.lineTo(1, (double) height /2);
+            highlightShape.moveTo(0, 0);
+            highlightShape.lineTo(width - arcSize, 0);
+            highlightShape.quadTo(width, 0, width, arcSize);
+            highlightShape.lineTo(width, (double) height / 2);
+            highlightShape.lineTo(0, (double) height / 2);
             highlightShape.closePath();
 
             GradientPaint highlightGradient = new GradientPaint(
                     0, 0, new Color(255, 255, 255, 80),
-                    0, (float) height /3, new Color(255, 255, 255, 0)
+                    0, (float) height / 3, new Color(255, 255, 255, 0)
             );
             g2d.setPaint(highlightGradient);
             g2d.fill(highlightShape);
         }
 
-
-
-        // Draw text manually for better control
+        // Text position
         g2d.setColor(Color.WHITE);
         g2d.setFont(getFont());
         FontMetrics fm = g2d.getFontMetrics();
-        int textX = 45;
+
+        int textX = horizontalPadding + iconSize + horizontalPadding;
         int textY = (height + fm.getAscent() - fm.getDescent()) / 2;
+
         g2d.drawString(getText(), textX, textY);
     }
 }
