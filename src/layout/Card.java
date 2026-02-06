@@ -1,6 +1,7 @@
 package layout;
 
 import layout.design.Design;
+import layout.hangOS_interfaces.HTP;
 import layout.hangOS_interfaces.MainMenu;
 
 import java.awt.*;
@@ -35,6 +36,8 @@ public class Card extends JFrame {
         MainMenu mainMenu = new MainMenu();
         container.add(mainMenu, "Main Menu");
 
+        HTP htp = new HTP();
+        container.add(htp, "How To Play");
         /*
         LoadScreen loadScreen = new LoadScreen();
         container.add(loadScreen, "Load Screen");
@@ -57,7 +60,7 @@ public class Card extends JFrame {
         cardLayout.show(container, "Load Screen");
         SoundUtils.bgMusic();
          */
-        cardLayout.show(container, "Main Menu");
+        cardLayout.show(container, "How To Play");
     }
 
     public static void screenChoice(String cardPage) {

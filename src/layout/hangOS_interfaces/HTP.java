@@ -2,6 +2,7 @@ package layout.hangOS_interfaces;
 
 import layout.constants.HangImages;
 import layout.design.Design;
+import layout.design.DesignHTP;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,10 +18,11 @@ public class HTP extends HangScreen {
 
     // Implement how the center screen looks here
     public void displayCenter(){
-        JPanel centerPanel = new JPanel(new GridBagLayout());
+        JPanel centerPanel = new JPanel();
         centerPanel.setOpaque(false);
 
         Design.centerDesignDefault(this, centerPanel);
+        DesignHTP.displayInstructionWindow(centerPanel);
     }
 
     // Paint bg-image
