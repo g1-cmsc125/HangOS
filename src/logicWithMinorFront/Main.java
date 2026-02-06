@@ -1,3 +1,5 @@
+package logicWithMinorFront;
+
 import javax.swing.SwingUtilities;
 
 

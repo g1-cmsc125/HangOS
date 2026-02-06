@@ -1,16 +1,14 @@
 package layout.hangOS_interfaces;
 
-import layout.design.Design;
-// import layout.design.DesignMenu;
 import layout.constants.HangImages;
-import layout.design.DesignMenu;
-
-import java.awt.*;
+import layout.design.Design;
 
 import javax.swing.*;
+import java.awt.*;
 
-public class MainMenu extends HangScreen {
-    public MainMenu(){
+/* How to play page */
+public class HTP extends HangScreen {
+    public HTP (){
         this.setLayout(new BorderLayout());
 
         displayCenter();
@@ -23,7 +21,6 @@ public class MainMenu extends HangScreen {
         centerPanel.setOpaque(false);
 
         Design.centerDesignDefault(this, centerPanel);
-        DesignMenu.displayMenuButtons(centerPanel);
     }
 
     // Paint bg-image

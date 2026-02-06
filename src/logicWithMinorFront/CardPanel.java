@@ -1,3 +1,5 @@
+package logicWithMinorFront;
+
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.event.KeyEvent;
