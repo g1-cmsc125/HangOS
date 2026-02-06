@@ -3,6 +3,7 @@ package layout.hangOS_interfaces;
 import layout.design.Design;
 // import layout.design.DesignMenu;
 import layout.constants.HangImages;
+import layout.design.DesignMenu;
 
 import java.awt.*;
 
@@ -18,10 +19,11 @@ public class MainMenu extends HangScreen {
 
     // Implement how the center screen looks here
     public void displayCenter(){
-        JPanel centerPanel = new JPanel(new GridBagLayout());
+        JPanel centerPanel = new JPanel();
         centerPanel.setOpaque(false);
 
         Design.centerDesignDefault(this, centerPanel);
+        DesignMenu.displayMenuButtons(centerPanel);
     }
 
     // Paint bg-image

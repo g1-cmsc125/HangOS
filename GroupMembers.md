@@ -1,4 +1,4 @@
-# CMSC 125: Operating Systems
+# [G1] CMSC 125: Operating Systems
 ## Leader
 - Desirre Bless Barbosa
 ## Group Members

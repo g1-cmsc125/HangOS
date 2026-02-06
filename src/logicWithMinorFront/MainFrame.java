@@ -1,3 +1,5 @@
+package logicWithMinorFront;
+
 import javax.swing.*;
 import java.awt.BorderLayout;
 
