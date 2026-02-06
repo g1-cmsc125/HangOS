@@ -19,7 +19,7 @@ public class MainMenu extends HangScreen {
 
     // Implement how the center screen looks here
     public void displayCenter(){
-        JPanel centerPanel = new JPanel(new GridBagLayout());
+        JPanel centerPanel = new JPanel();
         centerPanel.setOpaque(false);
 
         Design.centerDesignDefault(this, centerPanel);

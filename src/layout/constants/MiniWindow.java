@@ -8,19 +8,16 @@ import javax.swing.*;
 import java.awt.*;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class MiniWindow extends JPanel {
-
-    public MiniWindow(String title, String message) {
-        // 1. Fix the Size: Use PreferredSize to prevent the layout from crushing it
-        setPreferredSize(new Dimension(300, 150));
-        setLayout(new BorderLayout());
+    public MiniWindow(String title, int width, int height, JPanel inWindowPanel) {
+        this.setPreferredSize(new Dimension(width, height));
+        this.setLayout(new BorderLayout());
 
         // Classic XP Blue Border
-        setBorder(new LineBorder(new Color(0, 84, 227), 2));
-        setBackground(new Color(236, 233, 216));
+        this.setBorder(new LineBorder(new Color(0, 84, 227), 2));
+        this.setBackground(new Color(236, 233, 216));
 
         // --- TITLE BAR ---
         JPanel titleBar = new JPanel(new BorderLayout());
@@ -40,20 +37,11 @@ public class MiniWindow extends JPanel {
         controls.add(createHeaderBtn("X", new Color(232, 17, 35))); // Red Close
 
         titleBar.add(controls, BorderLayout.EAST);
-        add(titleBar, BorderLayout.NORTH);
+        this.add(titleBar, BorderLayout.NORTH);
 
         // --- MESSAGE CONTENT ---
-        JLabel msgLabel = new JLabel(message, SwingConstants.CENTER);
-        msgLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-        add(msgLabel, BorderLayout.CENTER);
-
-        // OK Button at the bottom
-        JButton okBtn = new JButton("OK");
-        okBtn.setFocusPainted(false);
-        JPanel btnPanel = new JPanel();
-        btnPanel.setOpaque(false);
-        btnPanel.add(okBtn);
-        add(btnPanel, BorderLayout.SOUTH);
+        inWindowPanel.setOpaque(false);
+        this.add(inWindowPanel, BorderLayout.CENTER);
     }
 
     private JButton createHeaderBtn(String text) { return createHeaderBtn(text, new Color(70, 130, 255)); }
