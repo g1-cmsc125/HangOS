@@ -13,7 +13,7 @@ JButton start;
 MenuPanel(CardPanel cardPanel){
  this.cardPanel = cardPanel; 
 
-start =  new JButton("Start"); 
+start =  new JButton("Start");
 
 start.setBounds(200, 258, 180, 50);
 

@@ -1,10 +1,13 @@
 package layout.design;
 
+import layout.Card;
 import layout.constants.HangFonts;
 import layout.constants.HangImages;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /* This Java file contains the custom design for main menu abstracting it away from the MainMenu.java file */
 /* Typically only centerPanel is overridden */
@@ -53,6 +56,15 @@ public class DesignMenu {
         customButton.setContentAreaFilled(false);
         customButton.setBorderPainted(false);
         customButton.setFocusPainted(false);
+
+        /* Adding functionality to main menu buttons */
+        customButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                JButton button = (JButton) e.getSource();
+                Card.screenChoice(button.getText());
+            }
+        });
 
         return customButton;
     }

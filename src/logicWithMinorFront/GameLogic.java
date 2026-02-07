@@ -115,7 +115,7 @@ public class GameLogic extends JPanel{
 
     public void wrongGuessLimit(){
          if(wrongGuesses>=6){
-            System.out.println("Game Over"); 
+            System.out.println("Start Over");
             System.out.println("The word was: " + word);
             cardPanel.showMenuPanel();
         }else{
