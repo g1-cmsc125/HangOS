@@ -11,15 +11,16 @@ import javax.swing.JPanel;
 public class GameLogic extends JPanel{
     String word = "";
     int wrongGuesses = 0;
-    CardPanel cardPanel;
+    public CardPanel cardPanel;
     private int maxMistakes= 6;
     ArrayList<Character> wordState = new ArrayList<>();
-    HangmanPanel hangmanPanel;
-    ;
+    public HangmanPanel hangmanPanel;
+    VirtualKeyboard virtualKeyboard;
 
     public GameLogic(CardPanel cardPanel, HangmanPanel hangmanPanel){
         this.cardPanel = cardPanel;
         this.hangmanPanel = hangmanPanel;
+        getRandomWord();
     }
 
     public void getRandomWord(){
@@ -38,8 +39,6 @@ public class GameLogic extends JPanel{
             System.out.println("Something went wrong" + "File not found at: " + System.getProperty("user.dir"));
         }
 
-
-
         if (!words.isEmpty()) {
             Random random = new Random();
             word = words.get(random.nextInt(words.size())).toLowerCase();
@@ -50,7 +49,6 @@ public class GameLogic extends JPanel{
 
         System.out.println("Secret Word: " + word);
         initializeWordState();
-
     }
 
     public void initializeWordState() {
@@ -105,7 +103,6 @@ public class GameLogic extends JPanel{
         }else{
             wrongGuesses++;
             System.out.println("wrong guess");
-            hangmanPanel.figurePanel.setWrongGuesses(wrongGuesses);
             wrongGuessLimit();
         }
 

@@ -22,14 +22,16 @@ GamePanel(CardPanel cardPanel, GameLogic gameLogic){
     virtualKeyboard = new VirtualKeyboard(gameLogic); 
 
     gbc.fill = GridBagConstraints.BOTH; 
-    gbc.gridy = 0; 
+    gbc.gridx = 0;
+    gbc.gridy = 0;
     gbc.weightx = 1.0; // Allow horizontal stretching
     gbc.weighty = 0.8; // Give each component 50% of the vertical space
     this.add(hangmanPanel, gbc); 
 
 
     gbc.fill = GridBagConstraints.BOTH; 
-    gbc.gridy=1; 
+    gbc.gridx = 0;
+    gbc.gridy = 1;
     gbc.weightx = 1.0; // Allow horizontal stretching
     gbc.weighty = 0.2; // Give each component 50% of the vertical space
     this.add(virtualKeyboard, gbc); 
