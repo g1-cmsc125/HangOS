@@ -1,4 +1,4 @@
-package logicWithMinorFront;
+package logic;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -8,7 +8,7 @@ public class MainFrame extends JFrame{
     public MainFrame() {
         this.setTitle("Hangman");
         this.setDefaultCloseOperation(3);
-        this.setSize(1000, 700);
+        this.setSize(500, 350);
         this.setLayout(new BorderLayout());
         cardPanel = new CardPanel(); 
         this.add(cardPanel); 

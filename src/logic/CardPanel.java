@@ -1,10 +1,8 @@
-package logicWithMinorFront;
+package logic;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
-import java.awt.event.KeyAdapter;
 
 public class CardPanel extends JPanel {
     JPanel cardsPanel;
@@ -14,7 +12,7 @@ public class CardPanel extends JPanel {
     GamePanel gamePanel; 
     HangmanPanel hangmanPanel; 
 
-    CardPanel(){
+    public CardPanel(){
         hangmanPanel = new HangmanPanel(); 
         cardLayout = new CardLayout();
         cardsPanel = new JPanel(cardLayout);
@@ -35,9 +33,12 @@ public class CardPanel extends JPanel {
 
     
     public void showGamePanel(){
+
+
         cardLayout.show(cardsPanel, "gamePanel"); 
         gameLogic.getRandomWord();
-        gamePanel.virtualKeyboard.resetKeyboard();
+        //new VirtualKeyboard();
+        //VirtualKeyboard.resetKeyboard();
     }
 
     public void showMenuPanel(){

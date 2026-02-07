@@ -1,4 +1,4 @@
-package logicWithMinorFront;
+package logic;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

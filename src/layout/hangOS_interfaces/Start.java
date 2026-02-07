@@ -3,6 +3,7 @@ package layout.hangOS_interfaces;
 import layout.constants.HangImages;
 import layout.design.Design;
 import layout.design.DesignMenu;
+import layout.design.DesignStart;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,8 +21,11 @@ public class Start extends HangScreen implements HangInterface{
     public void displayCenter(){
         JPanel centerPanel = new JPanel();
         centerPanel.setOpaque(false);
-
         Design.centerDesignDefault(this, centerPanel);
+        DesignStart.displayStartWindow(centerPanel);
+
+
+
     }
 
     // Paint bg-image

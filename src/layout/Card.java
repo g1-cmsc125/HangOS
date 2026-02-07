@@ -43,7 +43,6 @@ public class Card extends JFrame {
         Start start = new Start();
         container.add(start, "Start");
 
-
         /*
         LoadScreen loadScreen = new LoadScreen();
         container.add(loadScreen, "Load Screen");

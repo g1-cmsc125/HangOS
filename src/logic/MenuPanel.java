@@ -1,10 +1,9 @@
-package logicWithMinorFront;
+package logic;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
-import javax.swing.JPanel; 
-import javax.swing.JButton;
+import javax.swing.JPanel;
 
 public class MenuPanel extends JPanel implements ActionListener  {
 CardPanel cardPanel;
