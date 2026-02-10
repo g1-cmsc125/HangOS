@@ -1,12 +1,25 @@
 package layout.design.designStartElements;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagLayout;
+import java.awt.Window;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.RootPaneContainer;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import layout.constants.HangFonts;
+import layout.constants.MiniWindow;
 
 public class GameLogic extends JPanel{
     String word = "";
@@ -16,10 +29,21 @@ public class GameLogic extends JPanel{
     public HangmanPanel hangmanPanel;
     VirtualKeyboard virtualKeyboard;
 
+    String[] virusTitles = {"System Error", "Trojan.exe", "Warning", "Critical Failure", "Memory Leak"};
+    String[] virusMessages = {
+            "Deleting System32...",
+            "Illegal operation detected.",
+            "RAM download failed.",
+            "Your IP has been logged.",
+            "Windows cannot restart.",
+            "Fatal Exception 0E has occurred."
+    };
+
     public GameLogic(HangmanPanel hangmanPanel){
         this.hangmanPanel = hangmanPanel;
         getRandomWord();
     }
+
 
     public void getRandomWord(){
         String filepath = "database.txt";
@@ -63,47 +87,37 @@ public class GameLogic extends JPanel{
     }
 
 
-    public void checkWord(String var1){
-
-        System.out.println("Hangman by Cardi B");
-        System.out.println();
-
-        System.out.print("Guess a letter: ");
+    public void checkWord(String var1) {
         char guess = var1.toLowerCase().charAt(0);
 
-        System.out.println(guess);
-
-
-
-        System.out.println();
-
-        if(word.indexOf(guess)>= 0){
-            System.out.print("Correct" + "\n");
-
-
-            for(int i = 0; i< word.length(); i++){
-                if(word.charAt(i) == guess){
+        if (word.indexOf(guess) >= 0) {
+            // correct guess
+            for (int i = 0; i < word.length(); i++) {
+                if (word.charAt(i) == guess) {
                     wordState.set(i, guess);
                 }
             }
-
-            for(char c: wordState){
-                System.out.print(c + " ");
-            }
-
             hangmanPanel.displayWord(wordState);
 
-            if(!wordState.contains('_')){ //word sucessfully completed
-                System.out.println("You Win");
-                System.out.println("The word was: " + word);
+            if (!wordState.contains('_')) {
+                // TODO: add win logic!!!!
+                JOptionPane.showMessageDialog(this, "Download Complete: " + word + ".exe");
+                
             }
-        }else{
+
+        } else {
+            // wrong guess
             wrongGuesses++;
-            System.out.println("wrong guess");
-            wrongGuessLimit();
+            
+            // spawning virus
+            spawnInternalVirus();
+
+            // will check if crash or end game is done
+            if (wrongGuesses >= maxMistakes) {
+                // TODO: add endgame logic
+                System.out.println("CRASH TRIGGERED!"); 
+            }
         }
-
-
     }
 
 
@@ -122,12 +136,54 @@ public class GameLogic extends JPanel{
 
     }
 
-
     public int getMaxMistakes() {
         return maxMistakes;
     }
 
     public void setMaxMistakes(int maxMistakes) {
         this.maxMistakes = maxMistakes;
+    }
+
+    // popup logic
+    private void spawnInternalVirus() {
+        Random rand = new Random();
+
+        // main container panel
+        JPanel content = new JPanel(new GridBagLayout());
+        content.setBackground(Color.WHITE);
+        JTextArea text = new JTextArea(virusMessages[rand.nextInt(virusMessages.length)]);
+        text.setFont(HangFonts.loadCustomFonts(Font.PLAIN, 12));
+        text.setWrapStyleWord(true); text.setLineWrap(true);
+        text.setEditable(false); text.setOpaque(false);
+        content.add(new JLabel(UIManager.getIcon("OptionPane.errorIcon")));
+        content.add(text);
+
+        // mini window 
+        String title = virusTitles[rand.nextInt(virusTitles.length)];
+        MiniWindow mw = new MiniWindow(title, 220, 100, content);
+
+        // finding main window
+        Window window = SwingUtilities.getWindowAncestor(this.hangmanPanel);
+        
+        if (window instanceof RootPaneContainer) {
+            JLayeredPane layeredPane = ((RootPaneContainer) window).getLayeredPane();
+            
+            // random pos
+            int x = rand.nextInt(Math.max(1, window.getWidth() - 250));
+            int y = rand.nextInt(Math.max(1, window.getHeight() - 150));
+            
+            mw.setBounds(x, y, 220, 100);
+
+            // adding modal layer so it sits on top
+            layeredPane.add(mw, JLayeredPane.MODAL_LAYER);
+            layeredPane.moveToFront(mw);
+            
+            // force repaint.
+            layeredPane.repaint();
+            
+            System.out.println("Virus spawned at " + x + ", " + y); // Debug check
+        } else {
+            System.out.println("Could not find Main Window! Is the panel added to the frame?");
+        }
     }
 }
