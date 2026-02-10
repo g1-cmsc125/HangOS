@@ -13,6 +13,11 @@ public class HangColors {
 
     public static Color timeContainer = new Color(18, 151, 229);
 
+    // Mini window colors
     public static Color miniWindowBorder = new Color(0, 84, 227);
     public static Color miniWindow = new Color(236,233,216);
+
+    // displayHangOS colors
+    public static Color hangOSWordsPanel = new Color(201, 220, 245);
+    public static Color keyboardPanel = new Color(10, 60, 230);
 }

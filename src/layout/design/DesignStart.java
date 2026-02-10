@@ -8,8 +8,10 @@ import java.awt.*;
 
 /* Add this layout */
 public class DesignStart {
-
-    public static void displayStartWindow(JPanel centerPanel) {
+    // Refer to these static values when resizing in the hangOS
+    public static int hangOSWidth = (int) (0.65 * Design.screenWidth);
+    public static int hangOSHeight = (int) (0.65 * Design.screenHeight);
+    public static void displayHangOS(JPanel centerPanel) {
         // Set as grid bag layout -- removing additional wrappers/layout formats for CENTERING
         centerPanel.setLayout(new GridBagLayout());
 
@@ -23,9 +25,18 @@ public class DesignStart {
         gbc.weightx = 1.0;
 
         // Check these panels for duplicates etc.
+        // CardPanel is for -
         CardPanel cardPanel = new CardPanel();
+
+        // HangmanPanel is for -
         HangmanPanel hangmanPanel = new HangmanPanel();
+
+        // GameLogic is for -
+        // game logic requires card & hangman
         GameLogic gameLogic = new GameLogic(cardPanel, hangmanPanel);
+
+        // VK is for -
+        // contains game logic
         VirtualKeyboard keyboard = new VirtualKeyboard(gameLogic);
 
         // GBC configs
@@ -36,7 +47,7 @@ public class DesignStart {
         inWindowPanel.add(keyboard, gbc);
 
         // MiniWindow for the HangOS screen & virtual keyboard
-        MiniWindow mw = new MiniWindow("Hangman", (int) (0.65 * Design.screenWidth), (int) (0.65 * Design.screenHeight), inWindowPanel);
+        MiniWindow mw = new MiniWindow("Hangman", hangOSWidth, hangOSHeight, inWindowPanel);
         centerPanel.add(mw, new GridBagConstraints()); // Auto centering w/ grid bag layout
     }
 }

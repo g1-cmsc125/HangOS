@@ -6,9 +6,11 @@ import javax.swing.JPanel;
 
 public class CardPanel extends JPanel {
     JPanel cardsPanel;
-    CardLayout cardLayout; 
+
+    CardLayout cardLayout;
     GameLogic gameLogic; 
-    MenuPanel menuPanel; 
+
+    MenuPanel menuPanel;
     GamePanel gamePanel; 
     HangmanPanel hangmanPanel; 
 
