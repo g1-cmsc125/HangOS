@@ -17,31 +17,23 @@ public class CardPanel extends JPanel {
         cardLayout = new CardLayout();
         cardsPanel = new JPanel(cardLayout);
         gameLogic = new GameLogic(this, hangmanPanel); 
-        
 
         gamePanel = new GamePanel(this,gameLogic); 
-        menuPanel = new MenuPanel(this); 
-
+        menuPanel = new MenuPanel(this);
          
         cardsPanel.add(gamePanel, "gamePanel"); 
         cardsPanel.add(menuPanel, "menuPanel"); 
 
         this.setLayout(new BorderLayout());
         this.add(cardsPanel, BorderLayout.CENTER);
-
     }
-
     
     public void showGamePanel(){
-
-
         cardLayout.show(cardsPanel, "gamePanel"); 
         gameLogic.getRandomWord();
-        //new VirtualKeyboard();
-        //VirtualKeyboard.resetKeyboard();
     }
 
     public void showMenuPanel(){
-        cardLayout.show(cardsPanel, "menuPanel"); 
+        cardLayout.show(cardsPanel, "menuPanel");
     }
 }

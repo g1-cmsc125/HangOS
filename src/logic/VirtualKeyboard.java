@@ -5,8 +5,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class VirtualKeyboard extends JPanel {
-    private String[] letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-    private ArrayList<JButton> buttonList = new ArrayList<>();
+    private final ArrayList<JButton> buttonList = new ArrayList<>();
 
     public VirtualKeyboard(GameLogic gameLogic) {
         this.setLayout(new GridLayout(4, 1, 0, 3));
@@ -26,6 +25,7 @@ public class VirtualKeyboard extends JPanel {
             rowPanel.setOpaque(false);
 
             for (int i = 0; i < count; i++) {
+                String[] letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
                 if (letterIndex < letters.length) {
                     String letter = letters[letterIndex];
                     JButton key = createRetroButton(letter);
@@ -47,7 +47,7 @@ public class VirtualKeyboard extends JPanel {
 
     private JButton createRetroButton(String text) {
         JButton btn = new JButton(text);
-        btn.setFont(new Font("Tahoma", Font.TRUETYPE_FONT, 11));
+        btn.setFont(new Font("Tahoma", Font.PLAIN, 11));
         btn.setBackground(Color.WHITE);
         btn.setForeground(Color.BLACK);
         btn.setFocusPainted(false);

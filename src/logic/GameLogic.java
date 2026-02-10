@@ -127,4 +127,11 @@ public class GameLogic extends JPanel{
     }
 
 
+    public int getMaxMistakes() {
+        return maxMistakes;
+    }
+
+    public void setMaxMistakes(int maxMistakes) {
+        this.maxMistakes = maxMistakes;
+    }
 }
