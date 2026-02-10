@@ -1,22 +1,22 @@
 package layout.design.designStartElements;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Toolkit;
+import java.awt.Window;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.RootPaneContainer;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import layout.constants.HangFonts;
 import layout.constants.MiniWindow;
@@ -110,7 +110,7 @@ public class GameLogic extends JPanel{
             wrongGuesses++;
             
             // spawning virus
-            spawnVirus();
+            spawnInternalVirus();
 
             // will check if crash or end game is done
             if (wrongGuesses >= maxMistakes) {
@@ -145,50 +145,45 @@ public class GameLogic extends JPanel{
     }
 
     // popup logic
-
-    private void spawnVirus(){
+    private void spawnInternalVirus() {
         Random rand = new Random();
-        String title = virusTitles[rand.nextInt(virusTitles.length)];
-        String msg = virusMessages[rand.nextInt(virusMessages.length)];
-        
-        spawnPopup(title, msg, Color.white);
-    }
 
-    private void spawnPopup(String title, String msg, Color bgColor){
-        JPanel contentPanel = new JPanel(new GridBagLayout());
-        contentPanel.setBackground(bgColor);
-
-        // change this icon to the right one
-        JLabel icon = new JLabel(UIManager.getIcon("OptionPane.errorIcon"));
-
-        JTextArea text = new JTextArea(msg);
+        // main container panel
+        JPanel content = new JPanel(new GridBagLayout());
+        content.setBackground(Color.WHITE);
+        JTextArea text = new JTextArea(virusMessages[rand.nextInt(virusMessages.length)]);
         text.setFont(HangFonts.loadCustomFonts(Font.PLAIN, 12));
-        text.setWrapStyleWord(true);
-        text.setLineWrap(true);
-        text.setOpaque(false);
-        text.setEditable(false);
-        text.setPreferredSize(new Dimension(180, 50));
+        text.setWrapStyleWord(true); text.setLineWrap(true);
+        text.setEditable(false); text.setOpaque(false);
+        content.add(new JLabel(UIManager.getIcon("OptionPane.errorIcon")));
+        content.add(text);
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new java.awt.Insets(10, 10, 10, 10);
-        contentPanel.add(icon, gbc);
-        contentPanel.add(text, gbc);
+        // mini window 
+        String title = virusTitles[rand.nextInt(virusTitles.length)];
+        MiniWindow mw = new MiniWindow(title, 220, 100, content);
 
-        MiniWindow mw = new MiniWindow(title, 300, 150, contentPanel);
+        // finding main window
+        Window window = SwingUtilities.getWindowAncestor(this.hangmanPanel);
+        
+        if (window instanceof RootPaneContainer) {
+            JLayeredPane layeredPane = ((RootPaneContainer) window).getLayeredPane();
+            
+            // random pos
+            int x = rand.nextInt(Math.max(1, window.getWidth() - 250));
+            int y = rand.nextInt(Math.max(1, window.getHeight() - 150));
+            
+            mw.setBounds(x, y, 220, 100);
 
-        JDialog popup = new JDialog();
-        popup.setUndecorated(true); 
-        popup.setBackground(new Color(0, 0, 0, 0)); 
-        popup.setContentPane(mw); 
-        popup.pack();
-
-        Random rand = new Random();
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = rand.nextInt(screenSize.width - 300);
-        int y = rand.nextInt(screenSize.height - 150);
-        popup.setLocation(x, y);
-
-        popup.setAlwaysOnTop(true);
-        popup.setVisible(true);
+            // adding modal layer so it sits on top
+            layeredPane.add(mw, JLayeredPane.MODAL_LAYER);
+            layeredPane.moveToFront(mw);
+            
+            // force repaint.
+            layeredPane.repaint();
+            
+            System.out.println("Virus spawned at " + x + ", " + y); // Debug check
+        } else {
+            System.out.println("Could not find Main Window! Is the panel added to the frame?");
+        }
     }
 }
