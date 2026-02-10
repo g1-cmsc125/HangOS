@@ -1,16 +1,13 @@
 package layout.constants;
 
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-import java.awt.*;
-
-import javax.swing.*;
-import java.awt.*;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class MiniWindow extends JPanel {
+    private Point initialClick;
     public MiniWindow(String title, int width, int height, JPanel inWindowPanel) {
         this.setPreferredSize(new Dimension(width, height));
         this.setLayout(new BorderLayout());
@@ -28,6 +25,37 @@ public class MiniWindow extends JPanel {
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
         titleBar.add(titleLabel, BorderLayout.WEST);
+
+        MouseAdapter ma = new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                // clicking inside title bar
+                initialClick = e.getPoint();
+                // bringing this panel to front when clicked
+                if (getParent() != null) {
+                    getParent().setComponentZOrder(MiniWindow.this, 0);
+                    getParent().repaint();
+                }
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                // current location of the Window
+                int thisX = getLocation().x;
+                int thisY = getLocation().y;
+
+                // determine how much the mouse moved
+                int xMoved = e.getX() - initialClick.x;
+                int yMoved = e.getY() - initialClick.y;
+
+                // move the window
+                int X = thisX + xMoved;
+                int Y = thisY + yMoved;
+                setLocation(X, Y);
+            }
+        };
+        titleBar.addMouseListener(ma);
+        titleBar.addMouseMotionListener(ma);
 
         // Control Buttons (Minimize, Maximize, Close)
         JPanel controls = new JPanel(new FlowLayout(FlowLayout.RIGHT, 2, 4));
