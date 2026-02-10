@@ -1,4 +1,4 @@
-package logic;
+package layout.design.designStartElements;
 
 import layout.constants.HangColors;
 import layout.constants.HangFonts;
@@ -6,11 +6,7 @@ import layout.constants.HangFonts;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.util.ArrayList;
 
 import javax.swing.*;

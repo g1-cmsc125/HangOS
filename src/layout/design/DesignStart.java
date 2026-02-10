@@ -1,6 +1,6 @@
 package layout.design;
 
-import logic.*;
+import layout.design.designStartElements.*;
 import layout.constants.MiniWindow;
 
 import javax.swing.*;
@@ -26,14 +26,13 @@ public class DesignStart {
 
         // Check these panels for duplicates etc.
         // CardPanel is for -
-        CardPanel cardPanel = new CardPanel();
 
         // HangmanPanel is for -
         HangmanPanel hangmanPanel = new HangmanPanel();
 
         // GameLogic is for -
         // game logic requires card & hangman
-        GameLogic gameLogic = new GameLogic(cardPanel, hangmanPanel);
+        GameLogic gameLogic = new GameLogic(hangmanPanel);
 
         // VK is for -
         // contains game logic

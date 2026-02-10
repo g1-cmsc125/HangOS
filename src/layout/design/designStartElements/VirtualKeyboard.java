@@ -1,4 +1,4 @@
-package logic;
+package layout.design.designStartElements;
 
 import layout.constants.HangColors;
 import layout.constants.HangFonts;

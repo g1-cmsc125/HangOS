@@ -1,4 +1,4 @@
-package logic;
+package layout.design.designStartElements;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -11,14 +11,12 @@ import javax.swing.JPanel;
 public class GameLogic extends JPanel{
     String word = "";
     int wrongGuesses = 0;
-    public CardPanel cardPanel;
     private int maxMistakes= 6;
     ArrayList<Character> wordState = new ArrayList<>();
     public HangmanPanel hangmanPanel;
     VirtualKeyboard virtualKeyboard;
 
-    public GameLogic(CardPanel cardPanel, HangmanPanel hangmanPanel){
-        this.cardPanel = cardPanel;
+    public GameLogic(HangmanPanel hangmanPanel){
         this.hangmanPanel = hangmanPanel;
         getRandomWord();
     }
@@ -98,7 +96,6 @@ public class GameLogic extends JPanel{
             if(!wordState.contains('_')){ //word sucessfully completed
                 System.out.println("You Win");
                 System.out.println("The word was: " + word);
-                cardPanel.showMenuPanel();
             }
         }else{
             wrongGuesses++;
@@ -114,7 +111,6 @@ public class GameLogic extends JPanel{
         if(wrongGuesses>=6){
             System.out.println("Start Over");
             System.out.println("The word was: " + word);
-            cardPanel.showMenuPanel();
         }else{
         }
     }
