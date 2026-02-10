@@ -51,12 +51,14 @@ public class Design {
         blueTaskbar.setBorder(BorderFactory.createEmptyBorder(0, 7, 0, 0));
 
         // Dynamically add taskBarItem dependent on opened/closed tabs
+        /*
         for(int i = 0; i < 2; i++) {
             boolean isActive = (i == 1);
             TaskBarItem tbi = new TaskBarItem("Folder", isActive);
             tbi.setPreferredSize(new Dimension(150, btnHeight));
             blueTaskbar.add(tbi);
         }
+        */
 
         gbc.gridx = 1; gbc.weightx = 0.80;
         bottomPanel.add(blueTaskbar, gbc);
