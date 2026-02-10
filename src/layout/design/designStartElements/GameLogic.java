@@ -1,12 +1,25 @@
 package layout.design.designStartElements;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
+import layout.constants.HangFonts;
+import layout.constants.MiniWindow;
 
 public class GameLogic extends JPanel{
     String word = "";
@@ -16,10 +29,21 @@ public class GameLogic extends JPanel{
     public HangmanPanel hangmanPanel;
     VirtualKeyboard virtualKeyboard;
 
+    String[] virusTitles = {"System Error", "Trojan.exe", "Warning", "Critical Failure", "Memory Leak"};
+    String[] virusMessages = {
+            "Deleting System32...",
+            "Illegal operation detected.",
+            "RAM download failed.",
+            "Your IP has been logged.",
+            "Windows cannot restart.",
+            "Fatal Exception 0E has occurred."
+    };
+
     public GameLogic(HangmanPanel hangmanPanel){
         this.hangmanPanel = hangmanPanel;
         getRandomWord();
     }
+
 
     public void getRandomWord(){
         String filepath = "database.txt";
@@ -63,47 +87,37 @@ public class GameLogic extends JPanel{
     }
 
 
-    public void checkWord(String var1){
-
-        System.out.println("Hangman by Cardi B");
-        System.out.println();
-
-        System.out.print("Guess a letter: ");
+    public void checkWord(String var1) {
         char guess = var1.toLowerCase().charAt(0);
 
-        System.out.println(guess);
-
-
-
-        System.out.println();
-
-        if(word.indexOf(guess)>= 0){
-            System.out.print("Correct" + "\n");
-
-
-            for(int i = 0; i< word.length(); i++){
-                if(word.charAt(i) == guess){
+        if (word.indexOf(guess) >= 0) {
+            // correct guess
+            for (int i = 0; i < word.length(); i++) {
+                if (word.charAt(i) == guess) {
                     wordState.set(i, guess);
                 }
             }
-
-            for(char c: wordState){
-                System.out.print(c + " ");
-            }
-
             hangmanPanel.displayWord(wordState);
 
-            if(!wordState.contains('_')){ //word sucessfully completed
-                System.out.println("You Win");
-                System.out.println("The word was: " + word);
+            if (!wordState.contains('_')) {
+                // TODO: add win logic!!!!
+                JOptionPane.showMessageDialog(this, "Download Complete: " + word + ".exe");
+                
             }
-        }else{
+
+        } else {
+            // wrong guess
             wrongGuesses++;
-            System.out.println("wrong guess");
-            wrongGuessLimit();
+            
+            // spawning virus
+            spawnVirus();
+
+            // will check if crash or end game is done
+            if (wrongGuesses >= maxMistakes) {
+                // TODO: add endgame logic
+                System.out.println("CRASH TRIGGERED!"); 
+            }
         }
-
-
     }
 
 
@@ -122,12 +136,59 @@ public class GameLogic extends JPanel{
 
     }
 
-
     public int getMaxMistakes() {
         return maxMistakes;
     }
 
     public void setMaxMistakes(int maxMistakes) {
         this.maxMistakes = maxMistakes;
+    }
+
+    // popup logic
+
+    private void spawnVirus(){
+        Random rand = new Random();
+        String title = virusTitles[rand.nextInt(virusTitles.length)];
+        String msg = virusMessages[rand.nextInt(virusMessages.length)];
+        
+        spawnPopup(title, msg, Color.white);
+    }
+
+    private void spawnPopup(String title, String msg, Color bgColor){
+        JPanel contentPanel = new JPanel(new GridBagLayout());
+        contentPanel.setBackground(bgColor);
+
+        // change this icon to the right one
+        JLabel icon = new JLabel(UIManager.getIcon("OptionPane.errorIcon"));
+
+        JTextArea text = new JTextArea(msg);
+        text.setFont(HangFonts.loadCustomFonts(Font.PLAIN, 12));
+        text.setWrapStyleWord(true);
+        text.setLineWrap(true);
+        text.setOpaque(false);
+        text.setEditable(false);
+        text.setPreferredSize(new Dimension(180, 50));
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new java.awt.Insets(10, 10, 10, 10);
+        contentPanel.add(icon, gbc);
+        contentPanel.add(text, gbc);
+
+        MiniWindow mw = new MiniWindow(title, 300, 150, contentPanel);
+
+        JDialog popup = new JDialog();
+        popup.setUndecorated(true); 
+        popup.setBackground(new Color(0, 0, 0, 0)); 
+        popup.setContentPane(mw); 
+        popup.pack();
+
+        Random rand = new Random();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = rand.nextInt(screenSize.width - 300);
+        int y = rand.nextInt(screenSize.height - 150);
+        popup.setLocation(x, y);
+
+        popup.setAlwaysOnTop(true);
+        popup.setVisible(true);
     }
 }
