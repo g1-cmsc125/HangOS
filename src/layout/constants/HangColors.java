@@ -12,4 +12,7 @@ public class HangColors {
     public static Color startHoverBottom = new Color(70, 160, 60);
 
     public static Color timeContainer = new Color(18, 151, 229);
+
+    public static Color miniWindowBorder = new Color(0, 84, 227);
+    public static Color miniWindow = new Color(236,233,216);
 }

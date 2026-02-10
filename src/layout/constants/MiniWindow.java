@@ -16,8 +16,8 @@ public class MiniWindow extends JPanel {
         this.setLayout(new BorderLayout());
 
         // Classic XP Blue Border
-        this.setBorder(new LineBorder(new Color(0, 84, 227), 2));
-        this.setBackground(new Color(236, 233, 216));
+        this.setBorder(new LineBorder(HangColors.miniWindowBorder));
+        this.setBackground(HangColors.miniWindow);
 
         // --- TITLE BAR ---
         JPanel titleBar = new JPanel(new BorderLayout());

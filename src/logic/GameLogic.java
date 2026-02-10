@@ -80,7 +80,7 @@ public class GameLogic extends JPanel{
         System.out.println();
 
         if(word.indexOf(guess)>= 0){
-            System.out.print("Corrert" + "\n");
+            System.out.print("Correct" + "\n");
 
 
             for(int i = 0; i< word.length(); i++){
