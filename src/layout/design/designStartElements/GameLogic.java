@@ -4,10 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.Window;
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.swing.JLabel;
@@ -49,14 +46,24 @@ public class GameLogic extends JPanel{
         String filepath = "database.txt";
         ArrayList<String> words = new ArrayList<>();
 
-        try(BufferedReader reader = new BufferedReader(new FileReader(filepath))){
-            String line;
-            while((line = reader.readLine())!=null){
-                words.add(line.trim());
+        try (InputStream is = getClass().getResourceAsStream(filepath);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
+
+            if (is == null) {
+                System.out.println("Error: Could not find database.txt in classpath.");
+                // Determine fallback behavior here
+            } else {
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    words.add(line.trim());
+                }
             }
 
         }catch(FileNotFoundException e){
-            System.out.println("No file");
+            System.out.println("No file1");
+            System.out.println("File not found!");
+            System.out.println("I am looking for: src/logic/database.txt");
+            System.out.println("But I am currently standing in: " + System.getProperty("user.dir"));
         }catch(IOException e){
             System.out.println("Something went wrong" + "File not found at: " + System.getProperty("user.dir"));
         }
