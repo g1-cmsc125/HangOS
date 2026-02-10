@@ -21,11 +21,9 @@ public class Start extends HangScreen implements HangInterface{
     public void displayCenter(){
         JPanel centerPanel = new JPanel();
         centerPanel.setOpaque(false);
+
         Design.centerDesignDefault(this, centerPanel);
-        DesignStart.displayStartWindow(centerPanel);
-
-
-
+        DesignStart.displayHangOS(centerPanel);
     }
 
     // Paint bg-image

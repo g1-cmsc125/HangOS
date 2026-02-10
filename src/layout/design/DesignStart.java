@@ -1,6 +1,6 @@
 package layout.design;
 
-import logic.*;
+import layout.design.designStartElements.*;
 import layout.constants.MiniWindow;
 
 import javax.swing.*;
@@ -8,50 +8,45 @@ import java.awt.*;
 
 /* Add this layout */
 public class DesignStart {
+    // Refer to these static values when resizing in the hangOS
+    public static int hangOSWidth = (int) (0.65 * Design.screenWidth);
+    public static int hangOSHeight = (int) (0.65 * Design.screenHeight);
+    public static void displayHangOS(JPanel centerPanel) {
+        // Set as grid bag layout -- removing additional wrappers/layout formats for CENTERING
+        centerPanel.setLayout(new GridBagLayout());
 
-
-    public static void displayStartWindow(JPanel centerPanel) {
-        centerPanel.setLayout(new BorderLayout());
-
-        // Customizable JPanel inside MiniWindow
+        // Internal Setup
         JPanel inWindowPanel = new JPanel(new GridBagLayout());
-        //JLabel test = new JLabel("This JPanel is customizable.", SwingConstants.CENTER);
-        //test.setForeground(Color.BLACK);
-        //inWindowPanel.add(test, BorderLayout.CENTER);
-
         inWindowPanel.setOpaque(true);
-        inWindowPanel.setBackground(new Color(0xECE9D8));
+        inWindowPanel.setBackground(new Color(0xECE9D8)); // set as constant color
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH; // Stretch component both horizontally and vertically
+        gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
 
-        CardPanel cardPanel = new CardPanel();
+        // Check these panels for duplicates etc.
+        // CardPanel is for -
+
+        // HangmanPanel is for -
         HangmanPanel hangmanPanel = new HangmanPanel();
-        GameLogic gameLogic = new GameLogic(cardPanel, hangmanPanel);
+
+        // GameLogic is for -
+        // game logic requires card & hangman
+        GameLogic gameLogic = new GameLogic(hangmanPanel);
+
+        // VK is for -
+        // contains game logic
         VirtualKeyboard keyboard = new VirtualKeyboard(gameLogic);
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weighty = 0.7;
+        // GBC configs
+        gbc.gridx = 0; gbc.gridy = 0; gbc.weighty = 0.7;
         inWindowPanel.add(hangmanPanel, gbc);
 
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weighty = 0.3;
+        gbc.gridy = 1; gbc.weighty = 0.3;
         inWindowPanel.add(keyboard, gbc);
 
-        MiniWindow mw = new MiniWindow("Hangman", 500, 350, inWindowPanel);
-        mw.setBackground(new Color(0xECE9D8));
-
-        // Wrapper for multi-dir-anchor purposes
-        JPanel southWrapper = new JPanel();
-        southWrapper.setLayout(new BorderLayout());
-        southWrapper.add(mw, BorderLayout.SOUTH);
-        southWrapper.setBorder(BorderFactory.createEmptyBorder(0, 0, 35, 120));
-        southWrapper.setOpaque(false);
-
-        centerPanel.add(southWrapper, BorderLayout.EAST);
+        // MiniWindow for the HangOS screen & virtual keyboard
+        MiniWindow mw = new MiniWindow("Hangman", hangOSWidth, hangOSHeight, inWindowPanel);
+        centerPanel.add(mw, new GridBagConstraints()); // Auto centering w/ grid bag layout
     }
-
 }

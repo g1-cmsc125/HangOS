@@ -65,7 +65,7 @@ public class Card extends JFrame {
         cardLayout.show(container, "Load Screen");
         SoundUtils.bgMusic();
          */
-        cardLayout.show(container, "Main Menu");
+        cardLayout.show(container, "Start");
     }
 
     public static void screenChoice(String cardPage) {

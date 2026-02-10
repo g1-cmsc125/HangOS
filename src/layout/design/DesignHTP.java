@@ -1,5 +1,6 @@
 package layout.design;
 
+import layout.constants.HangColors;
 import layout.constants.MiniWindow;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ public class DesignHTP {
         test.setForeground(Color.BLACK);
         inWindowPanel.add(test, BorderLayout.CENTER);
 
-        MiniWindow mw = new MiniWindow("Instructions", 245, 245, inWindowPanel);
+        MiniWindow mw = new MiniWindow("Instructions",245, 245, inWindowPanel);
 
         // Wrapper for multi-dir-anchor purposes
         JPanel southWrapper = new JPanel();
