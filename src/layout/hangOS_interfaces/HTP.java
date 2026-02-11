@@ -11,25 +11,23 @@ import java.awt.*;
 public class HTP extends HangScreen {
     public HTP (){
         this.setLayout(new BorderLayout());
-
         displayCenter();
-        displayBottom(this);
     }
 
-    // Implement how the center screen looks here
     public void displayCenter(){
         JPanel centerPanel = new JPanel();
         centerPanel.setOpaque(false);
 
+        // This adds the instructions to the center of THIS panel
         Design.centerDesignDefault(this, centerPanel);
         DesignHTP.displayInstructionWindow(centerPanel);
     }
 
-    // Paint bg-image
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g.create();
-        g2d.drawImage(HangImages.background, 0, 0, getWidth(), (int) (getHeight() * 0.90), this);
+        g2d.drawImage(HangImages.background, 0, 0, getWidth(), getHeight(), this);
+        g2d.dispose();
     }
 }

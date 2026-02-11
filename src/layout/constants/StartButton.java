@@ -6,6 +6,7 @@ import java.awt.geom.*;
 public class StartButton extends JButton {
     private boolean isHovered = false;
     private boolean isPressed = false;
+    private boolean isStartMode = true;
 
     public StartButton() {
         this.setText("start");
@@ -24,6 +25,18 @@ public class StartButton extends JButton {
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 isPressed = true;
+
+                // Toggle the state and text
+                isStartMode = !isStartMode;
+                setText(isStartMode ? "start" : "exit");
+
+                // Trigger the screen switch
+                if (!isStartMode) {
+                    layout.Card.screenChoice("Start");
+                } else {
+                    layout.Card.screenChoice("Main Menu");
+                }
+
                 repaint();
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -31,7 +44,6 @@ public class StartButton extends JButton {
                 repaint();
             }
         });
-
     }
 
     @Override

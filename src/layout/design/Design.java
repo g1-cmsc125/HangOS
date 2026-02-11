@@ -4,7 +4,6 @@ import layout.Card;
 import layout.constants.HangColors;
 import layout.constants.HangFonts;
 import layout.constants.StartButton;
-import layout.constants.TaskBarItem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,42 +14,44 @@ public class Design {
     static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     public static int screenWidth = screenSize.width;
     public static int screenHeight = screenSize.height;
-
     static int footerHeight = (int)(Design.screenHeight * 0.10);
+
+    // One persistent button instance
+    private static final StartButton SHARED_START_BUTTON = new StartButton();
+
     public static void centerDesignDefault(JPanel mainPanel, JPanel centerPanel) {
-        centerPanel.setPreferredSize(new Dimension(Design.screenWidth, (int)(Design.screenHeight * 0.90)));
         centerPanel.setOpaque(false);
         mainPanel.add(centerPanel, BorderLayout.CENTER);
     }
 
-    public static void footerDesign(JPanel mainPanel) {
+    public static void footerDesign(JFrame mainFrame) {
         JPanel bottomPanel = new JPanel(new GridBagLayout());
-
         bottomPanel.setPreferredSize(new Dimension(Design.screenWidth, footerHeight));
-        bottomPanel.setOpaque(true);
         bottomPanel.setBackground(new Color(31, 107, 229));
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH; gbc.weighty = 1.0; gbc.gridheight = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weighty = 1.0;
 
         addStartButton(bottomPanel, gbc);
         addTaskBar(bottomPanel, gbc);
         addTimePanel(bottomPanel, gbc);
 
-        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+        mainFrame.add(bottomPanel, BorderLayout.SOUTH);
     }
 
     private static void addStartButton(JPanel bottomPanel, GridBagConstraints gbc) {
-        StartButton startButton = new StartButton();
-        gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0.05;
+        gbc.gridx = 0; gbc.weightx = 0.05;
 
-        startButton.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
+        // Use mousePressed to ensure it fires at the same time the text changes
+        SHARED_START_BUTTON.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
                 Card.screenChoice("Start");
             }
         });
 
-        bottomPanel.add(startButton, gbc);
+        bottomPanel.add(SHARED_START_BUTTON, gbc);
     }
 
     private static void addTaskBar(JPanel bottomPanel, GridBagConstraints gbc) {
