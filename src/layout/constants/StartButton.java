@@ -6,10 +6,11 @@ import java.awt.geom.*;
 public class StartButton extends JButton {
     private boolean isHovered = false;
     private boolean isPressed = false;
+    private boolean isStartMode = true;
 
     public StartButton() {
         this.setText("start");
-        this.setFont(HangFonts.loadCustomFonts(Font.BOLD | Font.ITALIC, 24));
+        this.setFont(HangFonts.loadCustomFonts(Font.BOLD | Font.ITALIC, HangFonts.titleFontSize));
         this.setForeground(Color.WHITE);
         this.setLayout(new FlowLayout());
 
@@ -22,8 +23,18 @@ public class StartButton extends JButton {
                 isHovered = false;
                 repaint();
             }
+            // Note that this is a cardLayout switch and not an instantiation problem
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 isPressed = true;
+                isStartMode = !isStartMode;
+
+                setText(isStartMode ? "start" : "exit");
+                if (isStartMode) {
+                    layout.Card.screenChoice("Main Menu");
+                } else {
+                    layout.Card.screenChoice("Start");
+                }
+
                 repaint();
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
@@ -31,7 +42,6 @@ public class StartButton extends JButton {
                 repaint();
             }
         });
-
     }
 
     @Override

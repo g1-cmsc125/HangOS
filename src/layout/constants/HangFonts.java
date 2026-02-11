@@ -4,6 +4,10 @@ import java.awt.Font;
 
 public class HangFonts {
     // Can also add here integer for Heading fonts, regular fonts, etc.
+    public static int regularFontSize = 20;
+    public static int titleFontSize = 45;
+    public static int subTitleFontSize = 32;
+
     public static final String DEFAULT_FAMILY = "Arial";
 
     // 1. Change 'void' to 'Font' so it returns the object

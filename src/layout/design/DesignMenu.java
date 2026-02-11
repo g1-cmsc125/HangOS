@@ -24,13 +24,14 @@ public class DesignMenu {
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
+        gbc.insets = new Insets(0, 0, HangFonts.regularFontSize, 0);
 
         // Passed centerPanel to the custom button creator
-        JButton htpButton = addCustomButton("License", HangImages.htpIcon, centerPanel);
+        JButton htpButton = addCustomButton(" License", HangImages.htpIcon, centerPanel);
         gbc.gridy = 0;
         menuButtons.add(htpButton, gbc);
 
-        JButton adButton = addCustomButton("About the Devs", HangImages.htpIcon, centerPanel);
+        JButton adButton = addCustomButton("The Devs", HangImages.htpIcon, centerPanel);
         gbc.gridy = 1;
         menuButtons.add(adButton, gbc);
 
@@ -49,13 +50,13 @@ public class DesignMenu {
     public static JButton addCustomButton(String buttonName, Image img, JPanel centerPanel) {
         JButton customButton = new JButton(buttonName);
 
-        int scale = 50;
+        int scale = (int)(HangFonts.titleFontSize * 1.5); // Change size of button icons here
         Image scaledIcon = img.getScaledInstance(scale, scale, Image.SCALE_SMOOTH);
         customButton.setIcon(new ImageIcon(scaledIcon));
 
         customButton.setHorizontalTextPosition(JButton.CENTER);
         customButton.setVerticalTextPosition(JButton.BOTTOM);
-        customButton.setFont(HangFonts.loadCustomFonts(Font.PLAIN, 13));
+        customButton.setFont(HangFonts.loadCustomFonts(Font.PLAIN, HangFonts.regularFontSize));
         customButton.setForeground(Color.WHITE);
 
         customButton.setContentAreaFilled(false);

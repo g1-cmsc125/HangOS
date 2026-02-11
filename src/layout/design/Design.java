@@ -4,7 +4,6 @@ import layout.Card;
 import layout.constants.HangColors;
 import layout.constants.HangFonts;
 import layout.constants.StartButton;
-import layout.constants.TaskBarItem;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,44 +11,40 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Design {
-    public static int screenWidth = (int) (720 * 1.5);
-    public static int screenHeight = (int) (512 * 1.5);
-
+    static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    public static int screenWidth = screenSize.width;
+    public static int screenHeight = screenSize.height;
     static int footerHeight = (int)(Design.screenHeight * 0.10);
+
+    // One persistent button instance
+    private static final StartButton SHARED_START_BUTTON = new StartButton();
+
     public static void centerDesignDefault(JPanel mainPanel, JPanel centerPanel) {
-        centerPanel.setPreferredSize(new Dimension(Design.screenWidth, (int)(Design.screenHeight * 0.90)));
         centerPanel.setOpaque(false);
         mainPanel.add(centerPanel, BorderLayout.CENTER);
     }
 
-    public static void footerDesign(JPanel mainPanel) {
+    public static void footerDesign(JFrame mainFrame) {
         JPanel bottomPanel = new JPanel(new GridBagLayout());
-
         bottomPanel.setPreferredSize(new Dimension(Design.screenWidth, footerHeight));
-        bottomPanel.setOpaque(true);
         bottomPanel.setBackground(new Color(31, 107, 229));
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.BOTH; gbc.weighty = 1.0; gbc.gridheight = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        gbc.weighty = 1.0;
 
         addStartButton(bottomPanel, gbc);
         addTaskBar(bottomPanel, gbc);
         addTimePanel(bottomPanel, gbc);
 
-        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
+        mainFrame.add(bottomPanel, BorderLayout.SOUTH);
     }
 
     private static void addStartButton(JPanel bottomPanel, GridBagConstraints gbc) {
-        StartButton startButton = new StartButton();
-        gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0.05;
-
-        startButton.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                Card.screenChoice("Start");
-            }
-        });
-
-        bottomPanel.add(startButton, gbc);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.05;
+        bottomPanel.add(SHARED_START_BUTTON, gbc);
     }
 
     private static void addTaskBar(JPanel bottomPanel, GridBagConstraints gbc) {
@@ -74,20 +69,29 @@ public class Design {
         bottomPanel.add(blueTaskbar, gbc);
     }
 
-    private static  void addTimePanel(JPanel bottomPanel, GridBagConstraints gbc) {
-        int vGap = (footerHeight - 13) / 2;
-
+    private static void addTimePanel(JPanel bottomPanel, GridBagConstraints gbc) {
         JPanel timeContainer = new JPanel();
-        timeContainer.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, vGap));
+        // Using GridBagLayout inside the container for perfect centering
+        timeContainer.setLayout(new GridBagLayout());
         timeContainer.setBackground(HangColors.timeContainer);
+
+        // Keep the right padding so the text isn't touching the very edge of the screen
         timeContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 7));
-        gbc.gridx = 2; gbc.weightx = 0.10;
 
-        JLabel time = new JLabel("3:24 PM"); // Could be actual time if modified
-        time.setFont(HangFonts.loadCustomFonts(Font.PLAIN, 11));
+        gbc.gridx = 2;
+        gbc.weightx = 0.05;
+        gbc.fill = GridBagConstraints.BOTH; // Fill the height of the bottomPanel
+
+        JLabel time = new JLabel("3:24 PM");
+        time.setFont(HangFonts.loadCustomFonts(Font.PLAIN, HangFonts.subTitleFontSize));
         time.setForeground(Color.WHITE);
-        timeContainer.add(time);
 
+        // GridBagConstraints for the label to align it to the RIGHT
+        GridBagConstraints labelGbc = new GridBagConstraints();
+        labelGbc.weightx = 1.0;
+        labelGbc.anchor = GridBagConstraints.EAST; // Anchors text to the right
+
+        timeContainer.add(time, labelGbc);
         bottomPanel.add(timeContainer, gbc);
     }
 }

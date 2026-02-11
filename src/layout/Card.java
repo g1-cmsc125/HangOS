@@ -22,10 +22,14 @@ public class Card extends JFrame {
         this.setTitle("HangOS");
         this.setSize(Design.screenWidth, Design.screenHeight);
         this.setResizable(false);
+        this.setUndecorated(true);
+        this.setLayout(new BorderLayout());
 
         addPanels();
+        this.add(container, BorderLayout.CENTER);
 
-        this.add(container);
+        Design.footerDesign(this);
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -43,28 +47,7 @@ public class Card extends JFrame {
         Start start = new Start();
         container.add(start, "Start");
 
-        /*
-        LoadScreen loadScreen = new LoadScreen();
-        container.add(loadScreen, "Load Screen");
-
-        MainMenu mainMenu = new MainMenu();
-        container.add(mainMenu, "Main Menu");
-
-        Play play = new Play();
-        container.add(play, "Play");
-
-        HowToPlay howToPlay = new HowToPlay();
-        container.add(howToPlay, "How To Play");
-
-        Settings settings = new Settings();
-        container.add(settings, "Settings");
-
-        Surrender surrender = new Surrender();
-        container.add(surrender, "Surrender");
-
-        cardLayout.show(container, "Load Screen");
-        SoundUtils.bgMusic();
-         */
+        // Starting screen
         cardLayout.show(container, "Main Menu");
     }
 
