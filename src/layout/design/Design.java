@@ -75,20 +75,29 @@ public class Design {
         bottomPanel.add(blueTaskbar, gbc);
     }
 
-    private static  void addTimePanel(JPanel bottomPanel, GridBagConstraints gbc) {
-        int vGap = (footerHeight - 13) / 2;
-
+    private static void addTimePanel(JPanel bottomPanel, GridBagConstraints gbc) {
         JPanel timeContainer = new JPanel();
-        timeContainer.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, vGap));
+        // Using GridBagLayout inside the container for perfect centering
+        timeContainer.setLayout(new GridBagLayout());
         timeContainer.setBackground(HangColors.timeContainer);
+
+        // Keep the right padding so the text isn't touching the very edge of the screen
         timeContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 7));
-        gbc.gridx = 2; gbc.weightx = 0.10;
 
-        JLabel time = new JLabel("3:24 PM"); // Could be actual time if modified
-        time.setFont(HangFonts.loadCustomFonts(Font.PLAIN, 11));
+        gbc.gridx = 2;
+        gbc.weightx = 0.05;
+        gbc.fill = GridBagConstraints.BOTH; // Fill the height of the bottomPanel
+
+        JLabel time = new JLabel("3:24 PM");
+        time.setFont(HangFonts.loadCustomFonts(Font.PLAIN, HangFonts.subTitleFontSize));
         time.setForeground(Color.WHITE);
-        timeContainer.add(time);
 
+        // GridBagConstraints for the label to align it to the RIGHT
+        GridBagConstraints labelGbc = new GridBagConstraints();
+        labelGbc.weightx = 1.0;
+        labelGbc.anchor = GridBagConstraints.EAST; // Anchors text to the right
+
+        timeContainer.add(time, labelGbc);
         bottomPanel.add(timeContainer, gbc);
     }
 }

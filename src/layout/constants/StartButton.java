@@ -9,7 +9,7 @@ public class StartButton extends JButton {
 
     public StartButton() {
         this.setText("start");
-        this.setFont(HangFonts.loadCustomFonts(Font.BOLD | Font.ITALIC, 24));
+        this.setFont(HangFonts.loadCustomFonts(Font.BOLD | Font.ITALIC, HangFonts.titleFontSize));
         this.setForeground(Color.WHITE);
         this.setLayout(new FlowLayout());
 
