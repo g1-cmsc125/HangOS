@@ -23,18 +23,16 @@ public class StartButton extends JButton {
                 isHovered = false;
                 repaint();
             }
+            // Note that this is a cardLayout switch and not an instantiation problem
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 isPressed = true;
-
-                // Toggle the state and text
                 isStartMode = !isStartMode;
-                setText(isStartMode ? "start" : "exit");
 
-                // Trigger the screen switch
-                if (!isStartMode) {
-                    layout.Card.screenChoice("Start");
-                } else {
+                setText(isStartMode ? "start" : "exit");
+                if (isStartMode) {
                     layout.Card.screenChoice("Main Menu");
+                } else {
+                    layout.Card.screenChoice("Start");
                 }
 
                 repaint();

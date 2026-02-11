@@ -41,16 +41,9 @@ public class Design {
     }
 
     private static void addStartButton(JPanel bottomPanel, GridBagConstraints gbc) {
-        gbc.gridx = 0; gbc.weightx = 0.05;
-
-        // Use mousePressed to ensure it fires at the same time the text changes
-        SHARED_START_BUTTON.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                Card.screenChoice("Start");
-            }
-        });
-
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weightx = 0.05;
         bottomPanel.add(SHARED_START_BUTTON, gbc);
     }
 
