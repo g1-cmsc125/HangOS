@@ -12,8 +12,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Design {
-    public static int screenWidth = (int) (720 * 1.5);
-    public static int screenHeight = (int) (512 * 1.5);
+    static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    public static int screenWidth = screenSize.width;
+    public static int screenHeight = screenSize.height;
 
     static int footerHeight = (int)(Design.screenHeight * 0.10);
     public static void centerDesignDefault(JPanel mainPanel, JPanel centerPanel) {

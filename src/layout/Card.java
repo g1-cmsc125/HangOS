@@ -22,6 +22,7 @@ public class Card extends JFrame {
         this.setTitle("HangOS");
         this.setSize(Design.screenWidth, Design.screenHeight);
         this.setResizable(false);
+        this.setUndecorated(true);
 
         addPanels();
 
