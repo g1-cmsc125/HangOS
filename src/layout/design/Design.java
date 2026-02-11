@@ -1,5 +1,6 @@
 package layout.design;
 
+import layout.Card;
 import layout.constants.HangColors;
 import layout.constants.HangFonts;
 import layout.constants.StartButton;
@@ -7,10 +8,12 @@ import layout.constants.TaskBarItem;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Design {
-    public static int screenWidth = 720;
-    public static int screenHeight = 512;
+    public static int screenWidth = (int) (720 * 1.5);
+    public static int screenHeight = (int) (512 * 1.5);
 
     static int footerHeight = (int)(Design.screenHeight * 0.10);
     public static void centerDesignDefault(JPanel mainPanel, JPanel centerPanel) {
@@ -39,6 +42,13 @@ public class Design {
     private static void addStartButton(JPanel bottomPanel, GridBagConstraints gbc) {
         StartButton startButton = new StartButton();
         gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0.05;
+
+        startButton.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                Card.screenChoice("Start");
+            }
+        });
+
         bottomPanel.add(startButton, gbc);
     }
 
