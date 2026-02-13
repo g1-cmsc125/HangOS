@@ -1,11 +1,10 @@
 package layout.design.designStartElements;
 
-import layout.constants.HangColors;
-import layout.constants.HangFonts;
-
-import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import javax.swing.*;
+import layout.constants.HangColors;
+import layout.constants.HangFonts;
 
 public class VirtualKeyboard extends JPanel {
     ArrayList<JButton> buttonList = new ArrayList<>();
@@ -96,12 +95,10 @@ public class VirtualKeyboard extends JPanel {
     }
 
     // This method does not get called
-    /*
     public void resetKeyboard() {
         for (JButton btn : buttonList) {
             btn.setEnabled(true);
             btn.setBorder(BorderFactory.createRaisedBevelBorder());
         }
     }
-     */
 }

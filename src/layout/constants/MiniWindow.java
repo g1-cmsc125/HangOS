@@ -62,8 +62,21 @@ public class MiniWindow extends JPanel {
         controls.setOpaque(false);
         controls.add(createHeaderBtn("_"));
         controls.add(createHeaderBtn("▢"));
-        controls.add(createHeaderBtn("X", new Color(232, 17, 35))); // Red Close
+        // controls.add(createHeaderBtn("X", new Color(232, 17, 35))); // Red Close
+        
+        // make button close
+        JButton closeBtn = createHeaderBtn("X", new Color(232, 17, 35));
+        closeBtn.addActionListener(e ->{
+            Container parent = getParent();
+            if (parent != null){
+                parent.remove(this);
+                parent.revalidate();
+                parent.repaint();
+            }
+        });
+        controls.add(closeBtn);
 
+        
         titleBar.add(controls, BorderLayout.EAST);
         this.add(titleBar, BorderLayout.NORTH);
 
