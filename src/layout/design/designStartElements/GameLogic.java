@@ -121,20 +121,12 @@ public class GameLogic extends JPanel{
 
             // will check if crash or end game is done
             if (wrongGuesses >= maxMistakes) {
-                // TODO: add endgame logic
+
                 System.out.println("CRASH TRIGGERED!"); 
             }
         }
     }
 
-
-    public void wrongGuessLimit(){
-        if(wrongGuesses>=6){
-            System.out.println("Start Over");
-            System.out.println("The word was: " + word);
-        }else{
-        }
-    }
 
 
     public void handleGuess(String letter) {
