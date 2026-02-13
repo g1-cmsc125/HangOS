@@ -1,47 +1,85 @@
 package layout.constants;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Path2D;
 
-public class StartButton extends JButton {
+public class ExitButton extends JButton {
     private boolean isHovered = false;
     private boolean isPressed = false;
-    private boolean isStartMode = true;
 
-    public StartButton() {
-        this.setText("start");
+    public ExitButton() {
         this.setFont(HangFonts.loadCustomFonts(Font.BOLD | Font.ITALIC, HangFonts.titleFontSize));
+        this.setText("exit");
         this.setForeground(Color.WHITE);
-        this.setLayout(new FlowLayout());
+        this.setContentAreaFilled(false);
+        this.setBorderPainted(false);
+        this.setFocusPainted(false);
 
-        addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent evt) {
                 isHovered = true;
                 repaint();
             }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+
+            @Override
+            public void mouseExited(MouseEvent evt) {
                 isHovered = false;
                 repaint();
             }
-            // Note that this is a cardLayout switch and not an instantiation problem
-            public void mousePressed(java.awt.event.MouseEvent evt) {
+
+            @Override
+            public void mousePressed(MouseEvent evt) {
                 isPressed = true;
-                isStartMode = !isStartMode;
+                repaint();
 
-                setText(isStartMode ? "start" : "exit");
-                if (isStartMode) {
-                    layout.Card.screenChoice("Main Menu");
+                Window window = SwingUtilities.getWindowAncestor(ExitButton.this);
+                if (window instanceof JFrame) {
+                    playExitGifAndExit((JFrame) window);
                 } else {
-                    layout.Card.screenChoice("Start");
+                    System.exit(0);
                 }
-
-                repaint();
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                isPressed = false;
-                repaint();
             }
         });
+    }
+
+    private void playExitGifAndExit(JFrame frame) {
+        // Reset the image to start from frame 1
+        if (HangImages.splash != null) {
+            HangImages.splash.flush();
+        }
+
+        // Use the URL or the Image directly in ImageIcon (ImageIcon supports animation)
+        JPanel glass = getJPanel(frame);
+        glass.repaint();
+
+        // 3000ms = 3 seconds. Adjust to your GIF's length.
+        Timer timer = new Timer(5000, e -> System.exit(0));
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    private static JPanel getJPanel(JFrame frame) {
+        ImageIcon exitIcon = new ImageIcon(HangImages.splash);
+        JLabel gifLabel = new JLabel(exitIcon);
+
+        // Setup GlassPane to cover the entire UI
+        JPanel glass = (JPanel) frame.getGlassPane();
+        glass.setLayout(new GridBagLayout()); // Centers the GIF
+        glass.removeAll();
+        glass.setBackground(Color.BLACK);
+        glass.setOpaque(true);
+        glass.add(gifLabel);
+
+        // Force the label to observe and animate the GIF
+        exitIcon.setImageObserver(gifLabel);
+
+        glass.setVisible(true);
+        glass.revalidate();
+        return glass;
     }
 
     @Override
@@ -70,22 +108,18 @@ public class StartButton extends JButton {
         buttonShape.lineTo(0, height);
         buttonShape.closePath();
 
-        // Fill
         GradientPaint greenGradient = new GradientPaint(0, 0, greenTop, 0, height, greenBottom);
         g2d.setPaint(greenGradient);
         g2d.fill(buttonShape);
 
-        // Padding & scaling
         int iconSize = (int) (height * 0.50);
         int iconY = (height - iconSize) / 2;
         int horizontalPadding = (int) (height * 0.20);
 
-        // Draw Image
         if (HangImages.windows != null) {
             g2d.drawImage(HangImages.windows, horizontalPadding, iconY, iconSize + 5, iconSize, this);
         }
 
-        // Highlight effect
         if (!isPressed) {
             Path2D highlightShape = new Path2D.Double();
             highlightShape.moveTo(0, 0);
@@ -103,14 +137,11 @@ public class StartButton extends JButton {
             g2d.fill(highlightShape);
         }
 
-        // Text position
         g2d.setColor(Color.WHITE);
         g2d.setFont(getFont());
         FontMetrics fm = g2d.getFontMetrics();
-
         int textX = horizontalPadding + iconSize + horizontalPadding;
         int textY = (height + fm.getAscent() - fm.getDescent()) / 2;
-
         g2d.drawString(getText(), textX, textY);
     }
 }

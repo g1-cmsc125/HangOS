@@ -26,18 +26,25 @@ public class DesignMenu {
         gbc.gridx = 0;
         gbc.insets = new Insets(0, 0, HangFonts.regularFontSize, 0);
 
-        // Passed centerPanel to the custom button creator
-        JButton htpButton = addCustomButton(" License", HangImages.htpIcon, centerPanel);
+        // 1. TOP POSITION (License)
+        JButton licenseButton = addCustomButton("License", HangImages.licenseIcon, centerPanel);
         gbc.gridy = 0;
-        menuButtons.add(htpButton, gbc);
+        menuButtons.add(licenseButton, gbc);
 
-        JButton adButton = addCustomButton("The Devs", HangImages.htpIcon, centerPanel);
+        // 2. MIDDLE-TOP (Devs)
+        JButton adButton = addCustomButton("The Devs", HangImages.devsIcon, centerPanel);
         gbc.gridy = 1;
         menuButtons.add(adButton, gbc);
 
-        JButton licenseButton = addCustomButton("How To Play", HangImages.htpIcon, centerPanel);
+        // 3. MIDDLE-BOTTOM (How to Play)
+        JButton htpButton = addCustomButton("How To Play", HangImages.htpIcon, centerPanel);
         gbc.gridy = 2;
-        menuButtons.add(licenseButton, gbc);
+        menuButtons.add(htpButton, gbc);
+
+        // 4. BOTTOM POSITION (Start)
+        JButton startButton = addCustomButton("Start", HangImages.startIcon, centerPanel);
+        gbc.gridy = 3;
+        menuButtons.add(startButton, gbc);
 
         JPanel southWrapper = new JPanel(new BorderLayout());
         southWrapper.setOpaque(false);
@@ -46,16 +53,23 @@ public class DesignMenu {
         centerPanel.add(southWrapper, BorderLayout.SOUTH);
     }
 
-    // customButton + listener (might modify for SoC)
     public static JButton addCustomButton(String buttonName, Image img, JPanel centerPanel) {
         JButton customButton = new JButton(buttonName);
 
-        int scale = (int)(HangFonts.titleFontSize * 1.5); // Change size of button icons here
-        Image scaledIcon = img.getScaledInstance(scale, scale, Image.SCALE_SMOOTH);
+        // Define a fixed square size for ALL icons
+        int iconSize = (int)(HangFonts.titleFontSize * 1.5);
+
+        // Force the image into a square iconSize x iconSize
+        Image scaledIcon = img.getScaledInstance(iconSize, iconSize, Image.SCALE_SMOOTH);
         customButton.setIcon(new ImageIcon(scaledIcon));
+
+        // Ensure the button itself doesn't shrink-wrap too tightly
+        customButton.setPreferredSize(new Dimension(iconSize + 40, iconSize + 40));
 
         customButton.setHorizontalTextPosition(JButton.CENTER);
         customButton.setVerticalTextPosition(JButton.BOTTOM);
+        customButton.setIconTextGap(5);
+
         customButton.setFont(HangFonts.loadCustomFonts(Font.PLAIN, HangFonts.regularFontSize));
         customButton.setForeground(Color.WHITE);
 

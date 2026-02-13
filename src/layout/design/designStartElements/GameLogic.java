@@ -18,7 +18,7 @@ import javax.swing.UIManager;
 import layout.constants.HangFonts;
 import layout.constants.MiniWindow;
 
-public class GameLogic extends JPanel{
+public class GameLogic extends JPanel {
     String word = "";
     int wrongGuesses = 0;
     private int maxMistakes= 6;
