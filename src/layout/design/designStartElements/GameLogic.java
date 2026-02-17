@@ -106,6 +106,7 @@ public class GameLogic extends JPanel{
             }
         }
         hangmanPanel.displayWord(wordState);
+        hangmanPanel.updateProgress(0, getTotalLetters());
     }
 
 
@@ -120,6 +121,11 @@ public class GameLogic extends JPanel{
                 }
             }
             hangmanPanel.displayWord(wordState);
+
+            // Calculate the correct and total words to be shown on HangmanPanel
+            int correct = getCorrectLetters();
+            int total = getTotalLetters();
+            hangmanPanel.updateProgress(correct, total);
 
             if (!wordState.contains('_')) {
                 // TODO: add win logic!!!!
@@ -262,4 +268,24 @@ public class GameLogic extends JPanel{
             System.out.println("Could not find Main Window! Is the panel added to the frame?");
         }
     }
+
+
+    // To get the total number of letters
+    private int getTotalLetters() {
+        int count = 0;
+        for (char c : word.toCharArray()) {
+            if (c != ' ') count++;
+        }
+        return count;
+    }
+
+    // Count the correct letters guessed
+    private int getCorrectLetters() {
+        int count = 0;
+        for (char c : wordState) {
+            if (c != '_' && c != ' ') count++;
+        }
+        return count;
+    }
+
 }

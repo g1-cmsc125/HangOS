@@ -14,11 +14,12 @@ public class DesignStart {
     public static void displayHangOS(JPanel centerPanel) {
         // Set as grid bag layout -- removing additional wrappers/layout formats for CENTERING
         centerPanel.setLayout(new GridBagLayout());
+        centerPanel.setBackground(Color.black);
 
         // Internal Setup
         JPanel inWindowPanel = new JPanel(new GridBagLayout());
         inWindowPanel.setOpaque(true);
-        inWindowPanel.setBackground(new Color(0xECE9D8)); // set as constant color
+        inWindowPanel.setBackground(Color.black); // set as constant color
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
@@ -39,10 +40,14 @@ public class DesignStart {
         VirtualKeyboard keyboard = new VirtualKeyboard(gameLogic);
 
         // GBC configs
-        gbc.gridx = 0; gbc.gridy = 0; gbc.weighty = 0.7;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.weighty = 0.4;
         inWindowPanel.add(hangmanPanel, gbc);
 
-        gbc.gridy = 1; gbc.weighty = 0.3;
+        gbc.gridy = 1;
+        gbc.weightx = 0.9;
+        gbc.weighty = 0.6;
         inWindowPanel.add(keyboard, gbc);
 
         // MiniWindow for the HangOS screen & virtual keyboard
