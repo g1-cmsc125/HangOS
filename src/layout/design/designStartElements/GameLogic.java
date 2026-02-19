@@ -1,9 +1,12 @@
 package layout.design.designStartElements;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.RootPaneContainer;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 import javax.swing.UIManager;
 import layout.constants.HangFonts;
 import layout.constants.MiniWindow;
@@ -38,7 +42,18 @@ public class GameLogic extends JPanel {
 
     public GameLogic(HangmanPanel hangmanPanel){
         this.hangmanPanel = hangmanPanel;
-        getRandomWord();
+        startNewGame();
+    }
+
+    public void startNewGame() {
+        this.wrongGuesses = 0;
+        this.getRandomWord();
+        resetKeyboardActions();
+        // Clear any existing viruses from the screen if needed
+        Window win = SwingUtilities.getWindowAncestor(this.hangmanPanel);
+        if (win instanceof RootPaneContainer) {
+             win.repaint();
+        }
     }
 
 
@@ -91,6 +106,7 @@ public class GameLogic extends JPanel {
             }
         }
         hangmanPanel.displayWord(wordState);
+        hangmanPanel.updateProgress(0, getTotalLetters());
     }
 
 
@@ -105,6 +121,11 @@ public class GameLogic extends JPanel {
                 }
             }
             hangmanPanel.displayWord(wordState);
+
+            // Calculate the correct and total words to be shown on HangmanPanel
+            int correct = getCorrectLetters();
+            int total = getTotalLetters();
+            hangmanPanel.updateProgress(correct, total);
 
             if (!wordState.contains('_')) {
                 // TODO: add win logic!!!!
@@ -121,21 +142,75 @@ public class GameLogic extends JPanel {
 
             // will check if crash or end game is done
             if (wrongGuesses >= maxMistakes) {
-                // TODO: add endgame logic
+                triggerSystemCrash();
                 System.out.println("CRASH TRIGGERED!"); 
             }
         }
     }
 
 
-    public void wrongGuessLimit(){
-        if(wrongGuesses>=6){
-            System.out.println("Start Over");
-            System.out.println("The word was: " + word);
-        }else{
-        }
+    // public void wrongGuessLimit(){
+    //     if(wrongGuesses>=6){
+    //         System.out.println("Start Over");
+    //         System.out.println("The word was: " + word);
+    //     }else{
+    //     }
+    // }
+
+    public void triggerSystemCrash(){
+        Timer stormTimer = new Timer(100, new ActionListener() {
+            int count = 0;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                spawnInternalVirus();
+                count++;
+                if (count >= 60) { //change number to make it more
+                    ((Timer)e.getSource()).stop();
+                    triggerBlackout();
+                }
+            }
+        });
+        stormTimer.start();
     }
 
+    private void triggerBlackout() {
+        Window win = SwingUtilities.getWindowAncestor(this.hangmanPanel);
+        if (!(win instanceof RootPaneContainer)) return;
+
+        JLayeredPane layers = ((RootPaneContainer) win).getLayeredPane();
+        
+        JPanel blackScreen = new JPanel(new GridBagLayout());
+        blackScreen.setBackground(Color.BLACK);
+        blackScreen.setBounds(0, 0, win.getWidth(), win.getHeight());
+        
+        JLabel text = new JLabel("> SYSTEM FAILURE. REBOOTING...");
+        text.setForeground(Color.GREEN);
+        text.setFont(new Font("Consolas", Font.BOLD, 14));
+        blackScreen.add(text);
+
+        layers.add(blackScreen, JLayeredPane.DRAG_LAYER);
+        layers.revalidate();
+        layers.repaint();
+
+        Timer rebootTimer = new Timer(3000, e -> {
+            ((Timer)e.getSource()).stop();
+            
+            // A. Remove Black Screen
+            layers.remove(blackScreen);
+
+            Component[] components = layers.getComponentsInLayer(JLayeredPane.MODAL_LAYER);
+            for (Component c : components) {
+                if (c instanceof MiniWindow) {
+                    layers.remove(c);
+                }
+            }
+            layers.repaint(); 
+            startNewGame();
+            layout.Card.screenChoice("Main Menu");
+        });
+        rebootTimer.setRepeats(false);
+        rebootTimer.start();
+    }
 
     public void handleGuess(String letter) {
         System.out.println("The user clicked: " + letter);
@@ -193,4 +268,24 @@ public class GameLogic extends JPanel {
             System.out.println("Could not find Main Window! Is the panel added to the frame?");
         }
     }
+
+
+    // To get the total number of letters
+    private int getTotalLetters() {
+        int count = 0;
+        for (char c : word.toCharArray()) {
+            if (c != ' ') count++;
+        }
+        return count;
+    }
+
+    // Count the correct letters guessed
+    private int getCorrectLetters() {
+        int count = 0;
+        for (char c : wordState) {
+            if (c != '_' && c != ' ') count++;
+        }
+        return count;
+    }
+
 }

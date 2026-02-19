@@ -1,70 +1,139 @@
 package layout.design.designStartElements;
 
-import layout.constants.HangColors;
-import layout.constants.HangFonts;
+import layout.constants.LoadTahoma;
+import layout.constants.RoundedGradientProgressBar;
+import layout.constants.RoundedTile;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
+import java.awt.*;
+import java.awt.font.TextAttribute;
 import java.util.ArrayList;
-
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.*;
-import javax.swing.border.Border;
 
+// This class creates the guesses (top part) of the game
 public class HangmanPanel extends JPanel {
-    // Some changes - instead of adding a "wordPanel" directly put things in "hangmanPanel" as the upper box
-    // where text resides
+
+    private final JPanel tileContainer; // Wrapper to hold the tiles together
+    private final JProgressBar progressBar; // For progress rectangle text on the top
+    private final JLabel statusLabel; // The label that says "Initializing..."
+    private final Color xpBackgroundBlue = new Color(42, 115, 200);
+
     public HangmanPanel() {
-        this.setLayout(new FlowLayout());
-        this.setVisible(true);
-        this.setBackground(HangColors.hangOSWordsPanel);
+
+        // 1. Configure the layout of the panel
+        this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
+        this.setBackground(xpBackgroundBlue);
+        this.setBorder(BorderFactory.createEmptyBorder(20,20,20,20));
+        this.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+
+        // 2. Initialize the custom progress bar (see RoundedGradientProgressBar on layout/constants)
+        progressBar = new RoundedGradientProgressBar(0, 100);
+        progressBar.setPreferredSize(new Dimension(800, 40));
+        progressBar.setBackground(new Color(0xf6f6f3));
+
+        // 3. Define a custom font with adjustable spacing in between characters
+        Font baseFont = LoadTahoma.loadCustomFonts(Font.BOLD, 20);
+        Map<TextAttribute, Object> attributes = new HashMap<>();
+        attributes.put(TextAttribute.TRACKING, 0.08);
+
+        // 4. Set up status text and add the custom font settings
+        statusLabel = new JLabel("Initializing secure download...");
+        statusLabel.setFont(baseFont.deriveFont(attributes));
+        statusLabel.setForeground(Color.WHITE);
+        statusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        statusLabel.setBorder(BorderFactory.createEmptyBorder(15,0,20, 0));
+
+        // 5. Create a container for the tiles using FlowLayout
+        tileContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
+        tileContainer.setOpaque(false);
+        tileContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // 6. Fix dimension of the container because flow layout tends to shift size depending on state
+        Dimension fixedTileSize = new Dimension(800, 50);
+        tileContainer.setPreferredSize(fixedTileSize);
+        tileContainer.setMinimumSize(fixedTileSize);
+        tileContainer.setMaximumSize(fixedTileSize);
+
+        // 7. Add progressBar, statusLabel and the tileContainer to the panel
+        this.add(progressBar);
+        this.add(statusLabel);
+        this.add(tileContainer);
     }
 
+    // This method updates the progress bar
+    // Note: The calculation for correct and total are on GameLogic
+    public void updateProgress(int correct, int total) {
+
+        // Create the timer
+        Timer timer = null;
+        if (timer != null && timer.isRunning()) {
+            timer.stop();
+        }
+
+        // Calculate percentage (handle division by zero)
+        int target = (total <= 0) ? 0 : (int) (((double) correct / total) * 100);
+
+        // Initialize the timer once, or reuse the logic
+        timer = new Timer(30, e -> {
+            int current = progressBar.getValue();
+
+            if (current < target) {
+                progressBar.setValue(current + 1);
+            } else if (current > target) {
+                progressBar.setValue(current - 1);
+            } else {
+                // Target reached
+                ((Timer)e.getSource()).stop();
+                if (target == 100) {
+                    statusLabel.setText("Word Complete! Secure download finished.");
+                }
+            }
+        });
+        timer.start();
+    }
+
+
+    // This displays the word guesses
     public void displayWord(ArrayList<Character> wordState){
-        this.removeAll();
+        // Clear the container, NOT the main panel
+        tileContainer.removeAll();
+
         for (char letter : wordState) {
             JLabel tile = createTile(letter);
-            this.add(tile);
+            tileContainer.add(tile);
         }
-        this.revalidate();
-        this.repaint();
+
+        // Refresh the UI
+        tileContainer.revalidate();
+        tileContainer.repaint();
     }
 
-    private JLabel createTile(char letter){
-        JLabel label = new JLabel();
+    // This creates the tiles in the word guesses
+    private JLabel createTile(char letter) {
 
-        int tileSize = 40;
-        label.setPreferredSize(new Dimension(tileSize, tileSize));
-        label.setHorizontalAlignment(SwingConstants.CENTER); label.setOpaque(true);
-        label.setFont(HangFonts.loadCustomFonts(Font.PLAIN, 13)); // 13 for both this and virtual keyboard
+        // Customize the size
+        int tileSize = 45;
+        // Create the customizable rounded tile (See RoundedTile on layout/constants)
+        RoundedTile tile = new RoundedTile(letter, tileSize);
 
-        Border shadowBorder = BorderFactory.createMatteBorder(1,1,4,3, new Color(0, 0, 0, 50));
-        Border lineBorder = BorderFactory.createLineBorder(Color.BLACK, 1);
-        label.setBorder(BorderFactory.createCompoundBorder(shadowBorder, lineBorder));
+        // Font Handling
+        try {
+            tile.setFont(LoadTahoma.loadCustomFonts(Font.BOLD, 22));
+        } catch (Exception e) {
+            tile.setFont(new Font("SansSerif", Font.BOLD, 20));
+        }
 
+        // Initial State Logic
         if (letter == '_') {
-            // Empty guess slot
-            label.setBackground(Color.WHITE);
-            label.setText("");
+            tile.setGuessed(false);
+            tile.setText("");
+        } else if (letter != ' ') {
+            // If the letter is already known/guessed at creation
+            tile.setGuessed(true);
         }
-        else if (letter == ' ') {
-            // Space between words (Invisible tile)
-            label.setBackground(new Color(0xC9DCF5));
-            label.setBorder(null); // No border for spaces
-            label.setText("");
-            label.setPreferredSize(new Dimension(20, 60)); // Narrower
-        }
-        else {
-            // Correctly guessed letter
-            label.setBackground(new Color(0x0844C3));
-            label.setForeground(Color.WHITE);
-            label.setText(String.valueOf(letter).toUpperCase());
-            shadowBorder = BorderFactory.createMatteBorder(1,1,4,3, new Color(0x3980F4));
-            label.setBorder(BorderFactory.createCompoundBorder(shadowBorder, lineBorder));
-        }
-        return label;
+
+        return tile;
     }
+
 }
-
-
