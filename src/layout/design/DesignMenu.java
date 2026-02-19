@@ -1,12 +1,12 @@
 package layout.design;
 
-import layout.Card;
-import layout.constants.HangColors;
 import layout.constants.HangFonts;
+import layout.constants.LoadTahoma;
 import layout.constants.HangImages;
 import layout.constants.MiniWindow; // Ensure this is imported
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -34,7 +34,7 @@ public class DesignMenu {
         // 2. MIDDLE-TOP (Devs)
         JButton adButton = addCustomButton("The Devs", HangImages.devsIcon, centerPanel);
         gbc.gridy = 1;
-        menuButtons.add(adButton, gbc);
+        menuButtons.add(devButton, gbc);
 
         // 3. MIDDLE-BOTTOM (How to Play)
         JButton htpButton = addCustomButton("How To Play", HangImages.htpIcon, centerPanel);
@@ -73,24 +73,247 @@ public class DesignMenu {
         customButton.setFont(HangFonts.loadCustomFonts(Font.PLAIN, HangFonts.regularFontSize));
         customButton.setForeground(Color.WHITE);
 
-        customButton.setContentAreaFilled(false);
-        customButton.setBorderPainted(false);
-        customButton.setFocusPainted(false);
+        // Define the event when clicked
+        htpButton.addMouseListener(new MouseAdapter() {
 
-        customButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Define a clean, blank-slate panel for the window content
+
+                // Define a panel to put the instructions inside
                 JPanel inWindowPanel = new JPanel(new BorderLayout());
-                animateMiniWindow(centerPanel, buttonName, inWindowPanel, customButton);
+                inWindowPanel.setBackground(new Color(243, 241, 230));
+
+                // Create a main content panel with vertical stacking
+                JPanel contentPanel = new JPanel();
+                contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+                contentPanel.setOpaque(false);
+                contentPanel.setBorder(BorderFactory.createEmptyBorder(25, 30, 15, 30));
+
+                // This creates the header text
+                JLabel headerLabel = new JLabel("You're trying to download a hidden file:");
+                headerLabel.setFont(LoadTahoma.loadCustomFonts(Font.PLAIN,17));
+                headerLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                // This creates the file box
+                JPanel fileBox = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
+                fileBox.setOpaque(false);
+                fileBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                // This creates the blue rounded line border
+                fileBox.setBorder(BorderFactory.createCompoundBorder(
+                        new LineBorder(new Color(65, 120, 220), 3, true),
+                        BorderFactory.createEmptyBorder(12, 40, 0, 40)
+                ));
+
+                // This creates the JLabel
+                JLabel fileLabel = new JLabel("word.exe");
+                fileLabel.setFont(LoadTahoma.loadCustomFonts(Font.PLAIN, 17));
+
+                // Import the folder icon
+                Image folderIcon = Toolkit.getDefaultToolkit().getImage("././resources/images/folder.png");
+                Image scaledFolder = folderIcon.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+
+                // Set icon and add text to the filebox
+                fileLabel.setIcon(new ImageIcon(scaledFolder));
+                fileBox.add(fileLabel);
+
+                // Creates the string instructions
+                // We use HTML here to handle the bullets and text wrapping
+                // Note: We can adjust the width here if we edited the TARGET_SIZE below
+                String rulesHtml = "<html><body style='width: 240px;'>" +
+                        "<ul style='margin-left: 20px; padding-left: 0;'>" +
+                        "<li style='margin-bottom: 5px;'>Guess the word one letter at a time.</li>" +
+                        "<li style='margin-bottom: 5px;'>For every correct guess, the letter is revealed and your download progresses.</li>" +
+                        "<li style='margin-bottom: 5px;'>For every wrong guess, system error popup appears and your computer takes damage.</li>" +
+                        "<li style='margin-bottom: 5px;'>You only have 6 mistakes.</li>" +
+                        "<li style='margin-bottom: 5px;'>If you reach 6 wrong guesses, your computer shuts down. Download failed.</li>" +
+                        "<li>Reveal the full word before your system crashes to win!</li>" +
+                        "</ul></body></html>";
+
+                // Create a label using the HTML text above
+                JLabel rulesLabel = new JLabel(rulesHtml);
+                rulesLabel.setFont(LoadTahoma.loadCustomFonts(Font.PLAIN, 17));
+                rulesLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                // Combine everything
+                contentPanel.add(headerLabel);
+                contentPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+                contentPanel.add(fileBox);
+                contentPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+                contentPanel.add(rulesLabel);
+                inWindowPanel.add(contentPanel, BorderLayout.CENTER);
+
+                // Trigger the animation
+                animateMiniWindow(centerPanel, buttonName, inWindowPanel, htpButton);
             }
         });
 
-        return customButton;
+        return htpButton;
+    }
+
+    // This creates the License window and returns it as a button like the ones above
+    public static JButton addLicenseButton(String buttonName, Image img, JPanel centerPanel) {
+
+        // Create the button
+        JButton licButton = new JButton(buttonName);
+
+        // Change size of button icons here
+        int scale = (int)(HangFonts.titleFontSize * 1.5);
+        Image scaledIcon = img.getScaledInstance(scale, scale, Image.SCALE_SMOOTH);
+        licButton.setIcon(new ImageIcon(scaledIcon));
+
+        // Add more customization to the button
+        licButton.setHorizontalTextPosition(JButton.CENTER);
+        licButton.setVerticalTextPosition(JButton.BOTTOM);
+        licButton.setFont(LoadTahoma.loadCustomFonts(Font.PLAIN, HangFonts.regularFontSize));
+        licButton.setForeground(Color.WHITE);
+        licButton.setContentAreaFilled(false);
+        licButton.setBorderPainted(false);
+        licButton.setFocusPainted(false);
+
+        // Define the event when clicked
+        licButton.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                // This creates the panel to put the license text inside
+                JPanel inWindowPanel = new JPanel(new BorderLayout());
+                inWindowPanel.setBackground(new Color(243, 241, 230));
+
+                // This naman creates a main content panel
+                JPanel contentPanel = new JPanel();
+                contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+                contentPanel.setOpaque(false);
+                contentPanel.setBorder(BorderFactory.createEmptyBorder(35, 30, 35, 30));
+
+                // This creates the title box
+                JPanel titleBox = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
+                titleBox.setOpaque(false);
+                titleBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                // Create the blue rounded line border with padding
+                titleBox.setBorder(BorderFactory.createCompoundBorder(
+                        new LineBorder(new Color(65, 120, 220), 2, true), // The blue border
+                        BorderFactory.createEmptyBorder(50, 30, 10, 30)   // Inner padding (Top, Left, Bottom, Right)
+                ));
+
+                // The label with the title
+                JLabel titleLabel = new JLabel("CMSC 125 - HangMan OS Game");
+                titleLabel.setFont(LoadTahoma.loadCustomFonts(Font.PLAIN, 17));
+                titleBox.add(titleLabel);
+
+                // Creates the string license text
+                // We use HTML here to handle the bullets and text wrapping
+                // Note again: We can adjust the width here if we edited the TARGET_SIZE below
+                String licHtml = "<html><body style='width: 240px;'>" +
+                        "<ul style='margin-left: 20px; padding-left: 0;'>" +
+                        "<li style='margin-bottom: 8px;'>This game was developed for academic purposes.</li>" +
+                        "<li style='margin-bottom: 8px;'>Free to use and modify for learning and non-commercial use only.</li>" +
+                        "<li>Distribution or commercial use without permission is not allowed.</li>" +
+                        "</ul></body></html>";
+
+                JLabel licLabel = new JLabel(licHtml);
+                licLabel.setFont(LoadTahoma.loadCustomFonts(Font.PLAIN, 17));;
+                licLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                // Combine
+                contentPanel.add(titleBox);
+                contentPanel.add(Box.createRigidArea(new Dimension(0, 25)));
+                contentPanel.add(licLabel);
+                inWindowPanel.add(contentPanel, BorderLayout.CENTER);
+
+                // Trigger  animation
+                animateMiniWindow(centerPanel, buttonName, inWindowPanel, licButton);
+            }
+        });
+
+        return licButton;
+    }
+
+    // This creates the License window and returns it as a button like the ones above
+    public static JButton addDevsButton(String buttonName, Image img, JPanel centerPanel) {
+
+        // Create the button
+        JButton devsButton = new JButton(buttonName);
+
+        // Change size of button icons here
+        int scale = (int)(HangFonts.titleFontSize * 1.5);
+        Image scaledIcon = img.getScaledInstance(scale, scale, Image.SCALE_SMOOTH);
+        devsButton.setIcon(new ImageIcon(scaledIcon));
+
+        // Add more customization to the button
+        devsButton.setHorizontalTextPosition(JButton.CENTER);
+        devsButton.setVerticalTextPosition(JButton.BOTTOM);
+        devsButton.setFont(LoadTahoma.loadCustomFonts(Font.PLAIN, HangFonts.regularFontSize));
+        devsButton.setForeground(Color.WHITE);
+        devsButton.setContentAreaFilled(false);
+        devsButton.setBorderPainted(false);
+        devsButton.setFocusPainted(false);
+
+        // Define the event when clicked
+        devsButton.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                // This creates the panel to put the license text inside
+                JPanel inWindowPanel = new JPanel(new BorderLayout());
+                inWindowPanel.setBackground(new Color(243, 241, 230));
+
+                // This naman creates a main content panel
+                JPanel contentPanel = new JPanel();
+                contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
+                contentPanel.setOpaque(false);
+                contentPanel.setBorder(BorderFactory.createEmptyBorder(35, 30, 35, 30));
+
+                // This creates the title box
+                JPanel titleBox = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
+                titleBox.setOpaque(false);
+                titleBox.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                // Create the blue rounded line border with padding
+                titleBox.setBorder(BorderFactory.createCompoundBorder(
+                        new LineBorder(new Color(65, 120, 220), 2, true), // The blue border
+                        BorderFactory.createEmptyBorder(50, 30, 10, 30)   // Inner padding (Top, Left, Bottom, Right)
+                ));
+
+                // The label with the title
+                JLabel titleLabel = new JLabel("The Developers");
+                titleLabel.setFont(LoadTahoma.loadCustomFonts(Font.PLAIN, 17));
+                titleBox.add(titleLabel);
+
+                // Creates the string license text
+                // We use HTML here to handle the bullets and text wrapping
+                // Note again: We can adjust the width here if we edited the TARGET_SIZE below
+                String devsHtml = "<html><body style='width: 240px;'>" +
+                        "<ul style='margin-left: 20px; padding-left: 0;'>" +
+                        "<li style='margin-bottom: 8px;'>Angela Almazan</li>" +
+                        "<li style='margin-bottom: 8px;'>Mac Alvarico</li>" +
+                        "<li style='margin-bottom: 8px;'>Desirre Barbosa</li>" +
+                        "<li style='margin-bottom: 8px;'>Zsyvette Bugho</li>" +
+                        "</ul></body></html>";
+
+                JLabel devsLabel = new JLabel(devsHtml);
+                devsLabel.setFont(LoadTahoma.loadCustomFonts(Font.PLAIN, 17));;
+                devsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+                // Combine
+                contentPanel.add(titleBox);
+                contentPanel.add(Box.createRigidArea(new Dimension(0, 25)));
+                contentPanel.add(devsLabel);
+                inWindowPanel.add(contentPanel, BorderLayout.CENTER);
+
+                // Trigger  animation
+                animateMiniWindow(centerPanel, buttonName, inWindowPanel, devsButton);
+            }
+        });
+
+        return devsButton;
     }
 
     private static void animateMiniWindow(JPanel centerPanel, String title, JPanel inWindowPanel, JButton sourceButton) {
-        final int TARGET_SIZE = 245;
+        final int TARGET_SIZE = 370;
 
         // Clean up existing popups
         for (Component c : centerPanel.getComponents()) {
@@ -99,7 +322,7 @@ public class DesignMenu {
             }
         }
 
-        // Setup the Popup Layer
+        // Set up the Popup Layer
         JPanel popupLayer = new JPanel(null);
         popupLayer.setName("PopupLayer");
         popupLayer.setOpaque(false);
