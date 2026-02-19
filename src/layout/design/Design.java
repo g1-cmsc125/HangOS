@@ -1,14 +1,11 @@
 package layout.design;
 
-import layout.Card;
 import layout.constants.HangColors;
 import layout.constants.HangFonts;
-import layout.constants.StartButton;
+import layout.constants.ExitButton;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class Design {
     static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -17,7 +14,7 @@ public class Design {
     static int footerHeight = (int)(Design.screenHeight * 0.10);
 
     // One persistent button instance
-    private static final StartButton SHARED_START_BUTTON = new StartButton();
+    private static final ExitButton SHARED_START_BUTTON = new ExitButton();
 
     public static void centerDesignDefault(JPanel mainPanel, JPanel centerPanel) {
         centerPanel.setOpaque(false);

@@ -2,7 +2,6 @@ package layout;
 
 import layout.design.Design;
 import layout.hangOS_interfaces.Start;
-import layout.hangOS_interfaces.HTP;
 import layout.hangOS_interfaces.MainMenu;
 
 import java.awt.*;
@@ -41,8 +40,6 @@ public class Card extends JFrame {
         MainMenu mainMenu = new MainMenu();
         container.add(mainMenu, "Main Menu");
 
-        HTP htp = new HTP();
-        container.add(htp, "How To Play");
 
         Start start = new Start();
         container.add(start, "Start");
