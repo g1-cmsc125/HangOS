@@ -3,7 +3,7 @@ package layout.design.designStartElements;
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
-import layout.constants.LoadTahoma;
+import layout.constants.HangCustomTahoma;
 
 public class VirtualKeyboard extends JPanel {
     ArrayList<JButton> buttonList = new ArrayList<>();
@@ -110,7 +110,7 @@ public class VirtualKeyboard extends JPanel {
             }
         };
 
-        btn.setFont(LoadTahoma.loadCustomFonts(Font.PLAIN, 22));
+        btn.setFont(HangCustomTahoma.loadCustomFonts(Font.PLAIN, 22));
         btn.setFocusPainted(false);
         btn.setContentAreaFilled(false);
         btn.setBorderPainted(false);

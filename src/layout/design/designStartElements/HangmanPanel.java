@@ -1,6 +1,7 @@
 package layout.design.designStartElements;
 
-import layout.constants.LoadTahoma;
+import layout.constants.HangCustomTahoma;
+import layout.constants.HangFonts;
 import layout.constants.RoundedGradientProgressBar;
 import layout.constants.RoundedTile;
 
@@ -33,7 +34,7 @@ public class HangmanPanel extends JPanel {
         progressBar.setBackground(new Color(0xf6f6f3));
 
         // 3. Define a custom font with adjustable spacing in between characters
-        Font baseFont = LoadTahoma.loadCustomFonts(Font.BOLD, 20);
+        Font baseFont = HangCustomTahoma.loadCustomFonts(Font.BOLD, 20);
         Map<TextAttribute, Object> attributes = new HashMap<>();
         attributes.put(TextAttribute.TRACKING, 0.08);
 
@@ -119,7 +120,7 @@ public class HangmanPanel extends JPanel {
 
         // Font Handling
         try {
-            tile.setFont(LoadTahoma.loadCustomFonts(Font.BOLD, 22));
+            tile.setFont(HangCustomTahoma.loadCustomFonts(Font.BOLD, 22));
         } catch (Exception e) {
             tile.setFont(new Font("SansSerif", Font.BOLD, 20));
         }

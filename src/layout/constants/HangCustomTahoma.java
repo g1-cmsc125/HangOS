@@ -8,19 +8,14 @@ import java.io.InputStream;
 
 
 // This is a new class to load the Windows Tahoma font
-public class LoadTahoma {
-    public static int regularFontSize = 20;
-    public static int titleFontSize = 45;
-    public static int subTitleFontSize = 32;
-
+public class HangCustomTahoma {
     private static Font customFontBase;
-
     static {
         // Font uploaded on resources/font
         String fontPath = "/font/windows-xp-tahoma.otf";
 
         // To check if font exists
-        try (InputStream is = LoadTahoma.class.getResourceAsStream(fontPath)) {
+        try (InputStream is = HangCustomTahoma.class.getResourceAsStream(fontPath)) {
             if (is == null) {
                 throw new IOException("Font file not found at: " + fontPath);
             }
