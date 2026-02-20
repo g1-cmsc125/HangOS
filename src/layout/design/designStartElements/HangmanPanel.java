@@ -1,20 +1,18 @@
 package layout.design.designStartElements;
 
-import layout.constants.HangCustomTahoma;
-import layout.constants.HangFonts;
-import layout.constants.RoundedGradientProgressBar;
-import layout.constants.RoundedTile;
-
 import java.awt.*;
 import java.awt.font.TextAttribute;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.*;
+import layout.constants.HangCustomTahoma;
+import layout.constants.RoundedGradientProgressBar;
+import layout.constants.RoundedTile;
 
 // This class creates the guesses (top part) of the game
 public class HangmanPanel extends JPanel {
-
+    private Timer animationTimer; // Class-level variable
     private final JPanel tileContainer; // Wrapper to hold the tiles together
     private final JProgressBar progressBar; // For progress rectangle text on the top
     private final JLabel statusLabel; // The label that says "Initializing..."
@@ -62,37 +60,45 @@ public class HangmanPanel extends JPanel {
 
     // This method updates the progress bar
     // Note: The calculation for correct and total are on GameLogic
+    // public void updateProgress(int correct, int total) {
+    //  // Stop any currently running animation before starting a new one
+    //     if (animationTimer != null && animationTimer.isRunning()) {
+    //         animationTimer.stop();
+    //     }
+
+    //     int target = (total <= 0) ? 0 : (int) (((double) correct / total) * 100);
+
+    //     animationTimer = new Timer(30, e -> {
+    //         int current = progressBar.getValue();
+
+    //         if (current < target) {
+    //             progressBar.setValue(current + 1);
+    //         } else if (current > target) {
+    //             progressBar.setValue(current - 1);
+    //         } else {
+    //             animationTimer.stop();
+    //             if (target == 100) {
+    //                 statusLabel.setText("Word Complete! Secure download finished.");
+    //             }
+    //         }
+    //     });
+    //     animationTimer.start();
+    // }
+
+    // This method updates the progress bar instantly based on string length
     public void updateProgress(int correct, int total) {
+        
+        // Set the maximum size of the progress bar to the length of the word
+        progressBar.setMaximum(total);
+        
+        // Fill the progress bar based on exactly how many characters are revealed
+        progressBar.setValue(correct);
 
-        // Create the timer
-        Timer timer = null;
-        if (timer != null && timer.isRunning()) {
-            timer.stop();
+        // Update the status label if the download is complete
+        if (correct == total && total > 0) {
+            statusLabel.setText("Word Complete! Secure download finished.");
         }
-
-        // Calculate percentage (handle division by zero)
-        int target = (total <= 0) ? 0 : (int) (((double) correct / total) * 100);
-
-        // Initialize the timer once, or reuse the logic
-        timer = new Timer(30, e -> {
-            int current = progressBar.getValue();
-
-            if (current < target) {
-                progressBar.setValue(current + 1);
-            } else if (current > target) {
-                progressBar.setValue(current - 1);
-            } else {
-                // Target reached
-                ((Timer)e.getSource()).stop();
-                if (target == 100) {
-                    statusLabel.setText("Word Complete! Secure download finished.");
-                }
-            }
-        });
-        timer.start();
     }
-
-
     // This displays the word guesses
     public void displayWord(ArrayList<Character> wordState){
         // Clear the container, NOT the main panel

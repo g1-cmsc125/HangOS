@@ -67,7 +67,6 @@ public class MiniWindow extends JPanel {
         // controls.add(createHeaderBtn("X", new Color(232, 17, 35))); // Red Close
         
         // make button close
-        // make button close
         JButton closeBtn = createHeaderBtn("X", new Color(232, 17, 35));
         closeBtn.addActionListener(e ->{
             // Play a sound when closing a window
@@ -80,11 +79,35 @@ public class MiniWindow extends JPanel {
                 
                 // 2. Switch back to the Main Menu card
                 layout.Card.screenChoice("Main Menu");
+                
+                // 3. CLEANUP VIRUS WINDOWS
+                Window topWindow = SwingUtilities.getWindowAncestor(MiniWindow.this);
+                if (topWindow instanceof RootPaneContainer) {
+                    JLayeredPane layeredPane = ((RootPaneContainer) topWindow).getLayeredPane();
+                    
+                    // Get everything sitting in the Modal Layer (where viruses spawn)
+                    Component[] components = layeredPane.getComponentsInLayer(JLayeredPane.MODAL_LAYER);
+                    for (Component c : components) {
+                        if (c instanceof MiniWindow) {
+                            layeredPane.remove(c); // Destroy the virus
+                        }
+                    }
+                    layeredPane.repaint(); // Refresh the screen so they disappear instantly
+                }
+                
             } else {
-                // Normal behavior for Viruses, License, Devs, etc. (destroy the window)
+                // Normal behavior for Viruses, License, Devs, etc.
                 Container parent = getParent();
                 if (parent != null){
-                    parent.remove(this);
+                    parent.remove(this); // Removes the window
+                    
+                    // Removes the invisible popupLayer wrapper if it's an info popup
+                    Container grandParent = parent.getParent();
+                    if (grandParent != null && "PopupLayer".equals(parent.getName())) {
+                        grandParent.remove(parent);
+                        grandParent.repaint();
+                    }
+                    
                     parent.revalidate();
                     parent.repaint();
                 }
