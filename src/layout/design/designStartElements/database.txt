@@ -1,7 +1,68 @@
-apple pie
-orange peel
-banana pudding
-dog
-cat
-baboon
-mellow
+processes
+address spaces
+file system
+system software 
+operating system 
+batch system 
+time sharing system 
+real time system 
+multiprocessor 
+distributed system 
+network system 
+multiuser system 
+multithreaded system 
+kernel 
+memory management 
+process management 
+disk management 
+cpu scheduling 
+throughput 
+turnaround time 
+waiting time 
+response time 
+non preemptive scheduling 
+preemptive scheduler 
+first come first served 
+shortest job first 
+priority scheduling 
+round robin 
+multilevel queue 
+spooling
+address spaces 
+file system 
+directory 
+path names 
+mounting 
+input output devices 
+protection 
+shell 
+system calls 
+monolithic system 
+layered system 
+microkernels 
+client server models 
+virtual machines 
+exokernels 
+unikernels 
+threads
+multithreading 
+kernel level thread 
+user level thread 
+process synchronization 
+inter process communication 
+shared memory model 
+message passing model 
+race conditions 
+critical regions 
+mutual exclusion 
+semaphores 
+mutexes 
+futexes 
+monitors 
+barriers 
+priority 
+inversion 
+deadlocks 
+hold and wait 
+circular wait 
+resource allocation 

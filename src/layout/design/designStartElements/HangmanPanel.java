@@ -43,15 +43,18 @@ public class HangmanPanel extends JPanel {
         statusLabel.setBorder(BorderFactory.createEmptyBorder(15,0,20, 0));
 
         // 5. Create a container for the tiles using FlowLayout
-        tileContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
+        tileContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 15));
         tileContainer.setOpaque(false);
         tileContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // 6. Fix dimension of the container because flow layout tends to shift size depending on state
-        Dimension fixedTileSize = new Dimension(800, 50);
-        tileContainer.setPreferredSize(fixedTileSize);
-        tileContainer.setMinimumSize(fixedTileSize);
-        tileContainer.setMaximumSize(fixedTileSize);
+        // 6. Increase the height from 50 to 150 to allow up to 3 rows of tiles
+        Dimension preferredSize = new Dimension(800, 200); 
+        Dimension minimumSize = new Dimension(800, 50);
+
+        tileContainer.setPreferredSize(preferredSize);
+        tileContainer.setMinimumSize(minimumSize);
+        tileContainer.setMaximumSize(preferredSize); // Let it grow up to 150px tall
         // 7. Add progressBar, statusLabel and the tileContainer to the panel
         this.add(progressBar);
         this.add(statusLabel);

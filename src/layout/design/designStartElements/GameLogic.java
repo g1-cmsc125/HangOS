@@ -98,8 +98,8 @@ public class GameLogic extends JPanel {
         if (!words.isEmpty()) {
             Random random = new Random();
             word = words.get(random.nextInt(words.size())).toLowerCase();
-        } else {
-            word = "Operating System";
+       } else {
+            word = "multithreaded operating system";
             System.out.println("Warning: Using fallback word 'hangman'");
         }
 
