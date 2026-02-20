@@ -53,9 +53,10 @@ public class VirtualKeyboard extends JPanel {
             // Actions for each key pressed
             btn.addActionListener(e -> {
                 SoundManager.playSystemSound("Windows XP Menu Command.wav");
-                gameLogic.handleGuess(keyText);
+                
                 // Disable button if pressed
                 btn.setEnabled(false);
+                gameLogic.handleGuess(keyText);
             });
 
             // Add
