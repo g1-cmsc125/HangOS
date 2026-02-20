@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import layout.constants.HangCustomTahoma;
+import layout.design.DesignStart;
 
 public class VirtualKeyboard extends JPanel {
     ArrayList<JButton> buttonList = new ArrayList<>();
@@ -18,10 +19,10 @@ public class VirtualKeyboard extends JPanel {
     private final Color pressedBlue = new Color(90, 160, 240);
 
     // This creates the virtual keyboard
-    public VirtualKeyboard(GameLogic gameLogic) {
+    public VirtualKeyboard() {
 
         // Add the game logic to the keyboard
-        this.gameLogic = gameLogic;
+        this.gameLogic = DesignStart.gameLogic;
 
         // Create layout of the keyboard
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -123,6 +124,10 @@ public class VirtualKeyboard extends JPanel {
         for (JButton btn : buttonList) {
             btn.setEnabled(true);
         }
+    }
+
+    public void setGameLogic(GameLogic logic) {
+        this.gameLogic = logic;
     }
 
 
