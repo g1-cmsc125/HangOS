@@ -1,15 +1,14 @@
-# 🖥️ HangOS
+# 🖥️ MauradersXP
 
 ## 📖 About
-**HangOS** is a retro, Windows XP-themed Hangman game built entirely in Java using Swing and AWT. Developed as a laboratory requirement for CMSC 125 (Operating Systems), this project reimagines the classic word-guessing game as a high-stakes "secure file download." 
+**MauradersXP** is a retro, Windows XP-themed Hangman game built entirely in Java using Swing and AWT. Developed as a laboratory requirement for CMSC 125 (Operating Systems), this project reimagines the classic word-guessing game as a high-stakes piracy download game.
 
-Instead of drawing a stick figure, players must accurately guess the characters of a hidden file (e.g., `word.exe`). [cite_start]The game dynamically reads its vocabulary from an external text file (`database.txt`), ensuring a randomly chosen word like "apple pie" or "cat" is selected every time the program is executed[cite: 1]. 
-
+Instead of drawing a stick figure, players must accurately guess the characters from the concepts in the course. Each wrong character guessed, a virus pop up will appear. 
 The project features:
 * **Fully Clickable GUI:** A mouse-driven interface featuring a virtual keyboard, start menu, and draggable mini-windows.
 * **Audio Integration:** Authentic Windows XP background music and system sounds (`javax.sound.sampled`) that react to your gameplay.
 * **Dynamic Visuals:** A custom rounded gradient progress bar that calculates download completion based on string length, and a built-in `.gif` boot sequence.
-* **Standalone Executable:** Compiled into a native `.exe` using Launch4j/JSmooth for seamless plug-and-play execution.
+* **Standalone Executable:** Compiled into a native `.exe` for seamless plug-and-play execution.
 
 ---
 
@@ -71,7 +70,7 @@ To manually compile the source code and check for all dependencies:
 ---
 
 ## 👨‍💻 The Developers
-This project was developed by the UP Tacloban InterSoc team:
+This project was developed by the Best CMSC 125 team:
 * Angela Almazan
 * Mac Alvarico
 * Desirre Barbosa (Leader)
