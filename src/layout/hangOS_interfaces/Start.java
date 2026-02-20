@@ -1,11 +1,10 @@
 package layout.hangOS_interfaces;
 
+import java.awt.*;
+import javax.swing.*;
 import layout.constants.HangImages;
 import layout.design.Design;
 import layout.design.DesignStart;
-
-import javax.swing.*;
-import java.awt.*;
 
 /* Place the design for the game here in displayCenter() */
 public class Start extends HangScreen implements HangInterface {
