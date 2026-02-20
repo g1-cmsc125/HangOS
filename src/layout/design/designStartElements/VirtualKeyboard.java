@@ -65,9 +65,9 @@ public class VirtualKeyboard extends JPanel {
 
     // This creates the letter buttons individually
     private JButton createRetroButton(String text) {
-
+        resetKeyboard(); 
         JButton btn = new JButton(text) {
-
+            
             // Use 2d for advanced design
             @Override
             protected void paintComponent(Graphics g) {

@@ -21,7 +21,6 @@ public class HangmanPanel extends JPanel {
     private final Color xpBackgroundBlue = new Color(42, 115, 200);
 
     public HangmanPanel() {
-
         // 1. Configure the layout of the panel
         this.setLayout(new BoxLayout(this,BoxLayout.Y_AXIS));
         this.setBackground(xpBackgroundBlue);
@@ -55,7 +54,6 @@ public class HangmanPanel extends JPanel {
         tileContainer.setPreferredSize(fixedTileSize);
         tileContainer.setMinimumSize(fixedTileSize);
         tileContainer.setMaximumSize(fixedTileSize);
-
         // 7. Add progressBar, statusLabel and the tileContainer to the panel
         this.add(progressBar);
         this.add(statusLabel);

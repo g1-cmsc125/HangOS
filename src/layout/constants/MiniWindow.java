@@ -8,6 +8,7 @@ import javax.swing.border.LineBorder;
 
 public class MiniWindow extends JPanel {
     private Point initialClick;
+    
     public MiniWindow(String title, int width, int height, JPanel inWindowPanel) {
         this.setPreferredSize(new Dimension(width, height));
         this.setLayout(new BorderLayout());
@@ -35,6 +36,7 @@ public class MiniWindow extends JPanel {
                 if (getParent() != null) {
                     getParent().setComponentZOrder(MiniWindow.this, 0);
                     getParent().repaint();
+                    
                 }
             }
 
