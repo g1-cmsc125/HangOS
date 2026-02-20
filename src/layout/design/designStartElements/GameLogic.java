@@ -129,10 +129,10 @@ public class GameLogic extends JPanel {
 
             if (!wordState.contains('_')) {
                 // TODO: add win logic!!!!
-                JOptionPane.showMessageDialog(this, "Download Complete: " + word + ".exe");
-                
+                JOptionPane.showMessageDialog(this, "Download Complete: " + word + ".exe"); 
+                    startNewGame();
+                    layout.Card.screenChoice("Main Menu");
             }
-
         } else {
             // wrong guess
             wrongGuesses++;

@@ -8,6 +8,9 @@ import java.awt.*;
 
 /* Add this layout */
 public class DesignStart {
+    public static HangmanPanel hangmanPanel = new HangmanPanel();
+
+    public static GameLogic gameLogic = new GameLogic(hangmanPanel);
     // Refer to these static values when resizing in the hangOS
     public static int hangOSWidth = (int) (0.65 * Design.screenWidth);
     public static int hangOSHeight = (int) (0.65 * Design.screenHeight);
@@ -29,16 +32,13 @@ public class DesignStart {
         // CardPanel is for -
 
         // HangmanPanel is for -
-        HangmanPanel hangmanPanel = new HangmanPanel();
-
-        // GameLogic is for -
-        // game logic requires card & hangman
-        GameLogic gameLogic = new GameLogic(hangmanPanel);
+        
 
         // VK is for -
         // contains game logic
         VirtualKeyboard keyboard = new VirtualKeyboard(gameLogic);
 
+       
         // GBC configs
         gbc.gridx = 0;
         gbc.gridy = 0;

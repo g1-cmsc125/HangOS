@@ -5,4 +5,4 @@ public class Main {
         Card app = new Card();
         app.setVisible(true);
     }
-}
+}   
