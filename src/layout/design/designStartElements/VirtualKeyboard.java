@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import layout.constants.HangCustomTahoma;
+import layout.constants.SoundManager;
 import layout.design.DesignStart;
 
 public class VirtualKeyboard extends JPanel {
@@ -51,6 +52,7 @@ public class VirtualKeyboard extends JPanel {
 
             // Actions for each key pressed
             btn.addActionListener(e -> {
+                SoundManager.playSystemSound("Windows XP Menu Command.wav");
                 gameLogic.handleGuess(keyText);
                 // Disable button if pressed
                 btn.setEnabled(false);

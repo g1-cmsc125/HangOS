@@ -21,6 +21,7 @@ import javax.swing.Timer;
 import javax.swing.UIManager;
 import layout.constants.HangFonts;
 import layout.constants.MiniWindow;
+import layout.constants.SoundManager;
 import layout.design.DesignStart;
 
 public class GameLogic extends JPanel {
@@ -130,10 +131,12 @@ public class GameLogic extends JPanel {
             hangmanPanel.updateProgress(correct, total);
 
             if (!wordState.contains('_')) {
-                // TODO: add win logic!!!!
+                
+                SoundManager.playSystemSound("tada.wav");
+
                 JOptionPane.showMessageDialog(this, "Download Complete: " + word + ".exe"); 
-                    startNewGame();
-                    layout.Card.screenChoice("Main Menu");
+                startNewGame();
+                layout.Card.screenChoice("Main Menu");
             }
         } else {
             // wrong guess
@@ -176,6 +179,8 @@ public class GameLogic extends JPanel {
     }
 
     private void triggerBlackout() {
+        SoundManager.playSystemSound("Windows XP Critical Stop.wav");
+
         Window win = SwingUtilities.getWindowAncestor(this.hangmanPanel);
         if (!(win instanceof RootPaneContainer)) return;
 
@@ -230,6 +235,8 @@ public class GameLogic extends JPanel {
 
     // popup logic
     private void spawnInternalVirus() {
+
+        SoundManager.playSystemSound("Windows XP Error.wav");
         Random rand = new Random();
 
         // main container panel

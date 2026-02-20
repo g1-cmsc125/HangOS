@@ -1,10 +1,10 @@
 package layout.constants;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Path2D;
+import javax.swing.*;
 
 public class ExitButton extends JButton {
     private boolean isHovered = false;
@@ -33,6 +33,7 @@ public class ExitButton extends JButton {
 
             @Override
             public void mousePressed(MouseEvent evt) {
+                SoundManager.playSystemSound("Windows XP Shutdown.wav");
                 isPressed = true;
                 repaint();
 

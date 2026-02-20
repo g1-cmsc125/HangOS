@@ -1,19 +1,18 @@
 package layout.design;
 
-import layout.Card;
-import layout.constants.HangCustomTahoma;
-import layout.constants.HangFonts;
-import layout.constants.HangImages;
-import layout.constants.MiniWindow; // Ensure this is imported
-
-import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Objects;
+import java.awt.event.MouseEvent; // Ensure this is imported
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import layout.Card;
+import layout.constants.HangCustomTahoma;
+import layout.constants.HangFonts;
+import layout.constants.HangImages;
+import layout.constants.MiniWindow;
+import layout.constants.SoundManager;
 
 public class DesignMenu {
     // Displays license, abd, htp icons
@@ -97,6 +96,7 @@ public class DesignMenu {
                 customButton.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
+                        SoundManager.playSystemSound("Windows Navigation Start.wav");
                         Card.screenChoice("Start");
                     }
                 });
@@ -114,6 +114,8 @@ public class DesignMenu {
 
             @Override
             public void mouseClicked(MouseEvent e) {
+                SoundManager.playSystemSound("Windows XP Balloon.wav");
+
                 // Define a panel to put the instructions inside
                 JPanel inWindowPanel = new JPanel(new BorderLayout());
                 inWindowPanel.setBackground(new Color(243, 241, 230));
