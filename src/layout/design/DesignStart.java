@@ -8,12 +8,21 @@ import java.awt.*;
 
 /* Add this layout */
 public class DesignStart {
-    public static HangmanPanel hangmanPanel = new HangmanPanel();
-
-    public static GameLogic gameLogic = new GameLogic(hangmanPanel);
     // Refer to these static values when resizing in the hangOS
     public static int hangOSWidth = (int) (0.65 * Design.screenWidth);
     public static int hangOSHeight = (int) (0.65 * Design.screenHeight);
+
+    // Initialize these normally
+    public static VirtualKeyboard keyboard = new VirtualKeyboard();
+    public static HangmanPanel hangmanPanel = new HangmanPanel();
+    public static GameLogic gameLogic = new GameLogic();
+
+    // Create a static block to link them AFTER they are all created
+    static {
+        keyboard.setGameLogic(gameLogic);
+        gameLogic.setupGame(hangmanPanel);
+    }
+
     public static void displayHangOS(JPanel centerPanel) {
         // Set as grid bag layout -- removing additional wrappers/layout formats for CENTERING
         centerPanel.setLayout(new GridBagLayout());
@@ -28,17 +37,6 @@ public class DesignStart {
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weightx = 1.0;
 
-        // Check these panels for duplicates etc.
-        // CardPanel is for -
-
-        // HangmanPanel is for -
-        
-
-        // VK is for -
-        // contains game logic
-        VirtualKeyboard keyboard = new VirtualKeyboard(gameLogic);
-
-       
         // GBC configs
         gbc.gridx = 0;
         gbc.gridy = 0;

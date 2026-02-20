@@ -21,6 +21,7 @@ import javax.swing.Timer;
 import javax.swing.UIManager;
 import layout.constants.HangFonts;
 import layout.constants.MiniWindow;
+import layout.design.DesignStart;
 
 public class GameLogic extends JPanel {
     String word = "";
@@ -28,7 +29,6 @@ public class GameLogic extends JPanel {
     private int maxMistakes= 6;
     ArrayList<Character> wordState = new ArrayList<>();
     public HangmanPanel hangmanPanel;
-    VirtualKeyboard virtualKeyboard;
 
     String[] virusTitles = {"System Error", "Trojan.exe", "Warning", "Critical Failure", "Memory Leak"};
     String[] virusMessages = {
@@ -40,20 +40,22 @@ public class GameLogic extends JPanel {
             "Fatal Exception 0E has occurred."
     };
 
-    public GameLogic(HangmanPanel hangmanPanel){
-        this.hangmanPanel = hangmanPanel;
+    public void setupGame(HangmanPanel panel) {
+        this.hangmanPanel = panel;
         startNewGame();
     }
 
     public void startNewGame() {
         this.wrongGuesses = 0;
         this.getRandomWord();
+        DesignStart.keyboard.resetKeyboard();
         resetKeyboardActions();
         // Clear any existing viruses from the screen if needed
         Window win = SwingUtilities.getWindowAncestor(this.hangmanPanel);
         if (win instanceof RootPaneContainer) {
              win.repaint();
         }
+
     }
 
 

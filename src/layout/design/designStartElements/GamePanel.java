@@ -15,7 +15,7 @@ public class GamePanel extends JPanel {
         this.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
-        virtualKeyboard = new VirtualKeyboard(gameLogic);
+        virtualKeyboard = new VirtualKeyboard();
 
         hangmanPanel.setPreferredSize(new Dimension(0, 0));
         virtualKeyboard.setPreferredSize(new Dimension(0, 0));
