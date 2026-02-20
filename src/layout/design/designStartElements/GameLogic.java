@@ -50,13 +50,22 @@ public class GameLogic extends JPanel {
         this.wrongGuesses = 0;
         this.getRandomWord();
         DesignStart.keyboard.resetKeyboard();
-        resetKeyboardActions();
-        // Clear any existing viruses from the screen if needed
+        
+        // Clear any existing viruses from the screen
         Window win = SwingUtilities.getWindowAncestor(this.hangmanPanel);
         if (win instanceof RootPaneContainer) {
-             win.repaint();
+            JLayeredPane layeredPane = ((RootPaneContainer) win).getLayeredPane();
+            
+            // Look inside the Modal Layer where viruses spawn
+            Component[] components = layeredPane.getComponentsInLayer(JLayeredPane.MODAL_LAYER);
+            for (Component c : components) {
+                // If it's a MiniWindow (virus), destroy it
+                if (c instanceof MiniWindow) {
+                    layeredPane.remove(c);
+                }
+            }
+            layeredPane.repaint(); // Refresh the UI to make them disappear
         }
-
     }
 
 
