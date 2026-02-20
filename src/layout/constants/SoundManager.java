@@ -1,4 +1,4 @@
-package layout.design.designStartElements;
+package layout.constants;
 
 import java.net.URL;
 import javax.sound.sampled.AudioInputStream;
@@ -7,9 +7,9 @@ import javax.sound.sampled.Clip;
 
 public class SoundManager {
 
-    public void playSystemSound(String fileName) {
+    public static void playSystemSound(String fileName) {
         try {
-            URL soundURL = getClass().getResource("/resources/sounds/" + fileName);
+            URL soundURL = SoundManager.class.getResource("/sounds/" + fileName);
             
             if (soundURL == null) {
                 System.err.println("Could not find sound file: " + fileName);

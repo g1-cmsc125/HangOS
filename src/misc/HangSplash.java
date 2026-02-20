@@ -37,6 +37,7 @@ package misc;
 
 import java.awt.*;
 import java.awt.event.*;
+import layout.constants.SoundManager;
 
 // Modify for SplashScreen adding .gif and tweaking some code lines
 public class HangSplash extends Frame implements ActionListener {
@@ -78,5 +79,6 @@ public class HangSplash extends Frame implements ActionListener {
 
     public static void main (String args[]) {
         HangSplash hangSplash = new HangSplash();
+        SoundManager.playSystemSound("Windows XP Startup.wav");
     }
 }
