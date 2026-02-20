@@ -43,15 +43,18 @@ public class HangmanPanel extends JPanel {
         statusLabel.setBorder(BorderFactory.createEmptyBorder(15,0,20, 0));
 
         // 5. Create a container for the tiles using FlowLayout
-        tileContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
+        tileContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 15));
         tileContainer.setOpaque(false);
         tileContainer.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // 6. Fix dimension of the container because flow layout tends to shift size depending on state
-        Dimension fixedTileSize = new Dimension(800, 50);
-        tileContainer.setPreferredSize(fixedTileSize);
-        tileContainer.setMinimumSize(fixedTileSize);
-        tileContainer.setMaximumSize(fixedTileSize);
+        // 6. Increase the height from 50 to 150 to allow up to 3 rows of tiles
+        Dimension preferredSize = new Dimension(800, 200); 
+        Dimension minimumSize = new Dimension(800, 50);
+
+        tileContainer.setPreferredSize(preferredSize);
+        tileContainer.setMinimumSize(minimumSize);
+        tileContainer.setMaximumSize(preferredSize); // Let it grow up to 150px tall
         // 7. Add progressBar, statusLabel and the tileContainer to the panel
         this.add(progressBar);
         this.add(statusLabel);
@@ -100,18 +103,38 @@ public class HangmanPanel extends JPanel {
         }
     }
     // This displays the word guesses
-    public void displayWord(ArrayList<Character> wordState){
-        // Clear the container, NOT the main panel
-        tileContainer.removeAll();
+    public void displayWord(ArrayList<Character> wordState) {
+    tileContainer.removeAll();
 
-        for (char letter : wordState) {
+    // 1. Create a panel to hold the current word we are building
+    JPanel currentWordPanel = createNewWordPanel();
+
+    for (char letter : wordState) {
+        if (letter == ' ') {
+            // 2. We hit a space! Add the completed word panel to the container
+            tileContainer.add(currentWordPanel);
+            
+            // 3. Start a brand new panel for the next word
+            currentWordPanel = createNewWordPanel();
+        } else {
+            // 4. Add the letter tile to the current word's panel
             JLabel tile = createTile(letter);
-            tileContainer.add(tile);
+            currentWordPanel.add(tile);
         }
+    }
+    
+    // 5. Add the very last word panel
+    tileContainer.add(currentWordPanel);
 
-        // Refresh the UI
-        tileContainer.revalidate();
-        tileContainer.repaint();
+    tileContainer.revalidate();
+    tileContainer.repaint();
+    }
+
+    // Helper method to keep word panels consistent
+    private JPanel createNewWordPanel() {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
+        panel.setOpaque(false); // Transparent to show blue background
+        return panel;
     }
 
     // This creates the tiles in the word guesses
