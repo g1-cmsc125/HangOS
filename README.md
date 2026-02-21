@@ -1,7 +1,7 @@
-# 🖥️ MauradersXP
+# 🖥️ MaraudersXB
 
 ## 📖 About
-**MauradersXP** is a retro, Windows XP-themed Hangman game built entirely in Java using Swing and AWT. Developed as a laboratory requirement for CMSC 125 (Operating Systems), this project reimagines the classic word-guessing game as a high-stakes piracy download game.
+**MaraudersXB** is a retro, Windows XP-themed Hangman game built entirely in Java using Swing and AWT. Developed as a laboratory requirement for CMSC 125 (Operating Systems), this project reimagines the classic word-guessing game as a high-stakes piracy download game.
 
 Instead of drawing a stick figure, players must accurately guess the characters from the concepts in the course. Each wrong character guessed, a virus pop up will appear. 
 The project features:
