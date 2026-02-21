@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="hangOS:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/hangOS_jar</output-path>
+    <root id="archive" name="hangOS.jar">
+      <element id="module-output" name="hangOS" />
+      <element id="file-copy" path="$PROJECT_DIR$/resources/META-INF/MANIFEST.MF" />
+    </root>
+  </artifact>
+</component>

@@ -1,10 +1,19 @@
 import layout.Card;
+import misc.HangSplash;
+
+import javax.swing.SwingUtilities;
 
 public class Main {
     public static void main(String[] args) {
-        Card app = new Card();
-        app.setVisible(true);
+        // Use SwingUtilities to ensure Thread safety
+        SwingUtilities.invokeLater(() -> {
+            HangSplash splash = new HangSplash();
 
-        // SoundManager.playSystemSound("Windows XP Startup.wav");
+            // Run the splash, then provide the code to run when finished
+            splash.showSplashAndStart(() -> {
+                Card app = new Card();
+                app.setVisible(true);
+            });
+        });
     }
 }

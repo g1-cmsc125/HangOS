@@ -1,84 +1,65 @@
-/*
- * Copyright (c) 1995, 2008, Oracle and/or its affiliates. All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
- *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
- *
- *   - Neither the name of Oracle or the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
- * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
- * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
- * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
- * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
-/*
- * SplashDemo.java
- *
- */
 package misc;
 
 import java.awt.*;
-import java.awt.event.*;
+import javax.swing.*;
+import layout.constants.HangImages;
 import layout.constants.SoundManager;
 
-// Modify for SplashScreen adding .gif and tweaking some code lines
-public class HangSplash extends Frame implements ActionListener {
+public class HangSplash extends JWindow {
+
     public HangSplash() {
+        // 1. Fresh start for the GIF
+        if (HangImages.splash != null) {
+            HangImages.splash.flush();
+        }
+
+        assert HangImages.splash != null;
+        ImageIcon splashIcon = new ImageIcon(HangImages.splash);
+        JLabel gifLabel = new JLabel(splashIcon);
+
+        // 2. Setup UI
+        JPanel content = new JPanel(new GridBagLayout());
+        content.setBackground(Color.BLACK);
+        content.add(gifLabel);
+        this.setContentPane(content);
+
+        // Match screen size
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setSize(screenSize);
         this.setLocationRelativeTo(null);
-        final SplashScreen splash = SplashScreen.getSplashScreen();
-        if (splash == null) {
-            System.out.println("SplashScreen.getSplashScreen() returned null");
-            return;
-        }
-        Graphics2D g = splash.createGraphics();
-        if (g == null) {
-            System.out.println("g is null");
-            return;
-        }
-        for(int i=0; i<100; i++) {
-            // renderSplashFrame(g, i);
-            splash.update();
-            try {
-                Thread.sleep(90);
-            }
-            catch(InterruptedException e) {
-                // Catch statement
-                System.err.println("Splash error interrupted exception!");
-            }
-        }
-        this.dispose();
-        splash.close();
-    }
-    public void actionPerformed(ActionEvent ae) {
-        System.exit(0);
+
+        // 3. THE FIX: Set window to transparent initially
+        // This prevents the "gray flash" of an unitialized window
+        this.setOpacity(0.0f);
+
+        // Ensure GIF animates on this label
+        splashIcon.setImageObserver(gifLabel);
     }
 
-    private static WindowListener closeWindow = new WindowAdapter(){
-        public void windowClosing(WindowEvent e){
-            e.getWindow().dispose();
-        }
-    };
+    public void showSplashAndStart(Runnable onComplete) {
+        // Show the window (it is still 0% opaque, so invisible to user)
+        setVisible(true);
 
-    public static void main (String args[]) {
-        HangSplash hangSplash = new HangSplash();
-        SoundManager.playSystemSound("Windows XP Startup.wav");
+        // A very short timer to allow the AWT Event Queue to
+        // finish the first paint of the black background.
+        Timer readyTimer = new Timer(100, e -> {
+            // Start sound
+            SoundManager.playSystemSound("Windows XP Startup.wav");
+
+            // Unveil the window now that it's "warm"
+            this.setOpacity(1.0f);
+            this.repaint();
+        });
+        readyTimer.setRepeats(false);
+        readyTimer.start();
+
+        // Main timer for the duration of the splash
+        Timer exitTimer = new Timer(5100, e -> {
+            setVisible(false);
+            dispose();
+            onComplete.run();
+        });
+        exitTimer.setRepeats(false);
+        exitTimer.start();
     }
 }
